@@ -1,24 +1,19 @@
 export interface IConverterState {
     loading_status: boolean | null;
     error: string | null;
-    success: boolean | null
-    query: IConverterQuery | null;
-    info: IConverterInfo| null;
-    date: string| null;
-    result: number| null;
+    success: boolean | null;
+    amount: string | null;
+    base_currency_code: string | null;
+    base_currency_name: string | null;
+    updated_date: string | null;
+    rates: {} | null;
 }
 
-interface IConverterQuery {
-    from: string;
-    to: string;
-    amount: number;
+export interface IRate {
+    currency_name: string | null,
+    rate: string | null,
+    rate_for_amount: string | null,
 }
-
-interface IConverterInfo {
-    timestamp: number;
-    rate: number;
-}
-
 
 export enum ConverterActionTypes {
     CONVERT = "CONVERT",
@@ -32,7 +27,11 @@ interface IConvertAction {
 
 interface IConvertSuccessAction {
     type: ConverterActionTypes.CONVERT_SUCCESS;
-    payload: any[];
+    amount: string,
+    base_currency_code: string,
+    base_currency_name: string,
+    updated_date: string,
+    rates: {}
 }
 
 interface IConvertErrorAction {
