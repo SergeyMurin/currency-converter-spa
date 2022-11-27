@@ -2,7 +2,7 @@ export interface ISupportedSymbolsState {
     loading_status: boolean | null;
     error: string | null;
     success: boolean | null;
-    result: {} | null;
+    symbols: {} | null;
 }
 
 export enum SupportedSymbolsActionTypes {
@@ -17,7 +17,7 @@ interface IGetSupportedSymbolsAction {
 
 interface IGetSupportedSymbolsSuccessAction {
     type: SupportedSymbolsActionTypes.GET_SUPPORTED_SYMBOLS_SUCCESS;
-    payload: any[];
+    symbols: {}
 }
 
 interface IGetSupportedSymbolsErrorAction {
