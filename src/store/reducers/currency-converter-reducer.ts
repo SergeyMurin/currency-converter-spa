@@ -1,5 +1,5 @@
 import {
-    CurrencyConverterAction,
+    CurrencyConverterActionType,
     CurrencyConverterActionTypes,
     ICurrencyConverterState
 } from "../../types/currency-converter-types";
@@ -12,7 +12,7 @@ const initialState: ICurrencyConverterState = {
     error: null,
 };
 
-export const currencyConverterReducer = (state = initialState, action: CurrencyConverterAction) => {
+export const currencyConverterReducer = (state = initialState, action: CurrencyConverterActionType) => {
     switch (action.type) {
         case CurrencyConverterActionTypes.CURRENCY_CONVERT: {
             return {loading_status: true, error: null};

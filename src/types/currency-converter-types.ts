@@ -86,7 +86,7 @@ interface IGetSupportedSymbolsErrorAction {
 }
 
 
-export type CurrencyConverterAction =
+export type CurrencyConverterActionType =
     ICurrencyConvertAction |
     ICurrencyConvertSuccessAction |
     ICurrencyConvertErrorAction |
