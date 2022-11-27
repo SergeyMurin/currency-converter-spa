@@ -2,11 +2,14 @@ import React, {useEffect} from 'react';
 import {useTypedSelector} from "../hooks/use-typed-selector";
 import {useAction} from "../hooks/use-action";
 
-const SupportedSymbols: React.FC = () => {
-    const {loading_status} = useTypedSelector(state => state.supportedSymbols);
-    const {getSupportedSymbols} = useAction();
+
+const AvailableCurrencies: React.FC = () => {
+    const {loading_status} = useTypedSelector(state => state.availableCurrencies);
+    const {getAvailableCurrencies} = useAction();
     useEffect(() => {
-        getSupportedSymbols();
+        setTimeout(() => {
+            getAvailableCurrencies();
+        }, 1100);
     }, []);
     return (
         <div className={"supported-symbols"}>
@@ -15,4 +18,4 @@ const SupportedSymbols: React.FC = () => {
     );
 };
 
-export default SupportedSymbols;
+export default AvailableCurrencies;

@@ -8,10 +8,11 @@ const initialState: IConverterState = {
     loading_status: null,
     error: null,
     success: null,
-    query: null,
-    info: null,
-    date: null,
-    result: null,
+    amount: null,
+    rates: null,
+    updated_date: null,
+    base_currency_code: null,
+    base_currency_name: null,
 };
 
 export const converterReducer = (state = initialState, action: ConverterActionType) => {
@@ -20,7 +21,15 @@ export const converterReducer = (state = initialState, action: ConverterActionTy
             return {loading_status: true, error: null};
         }
         case ConverterActionTypes.CONVERT_SUCCESS: {
-            return {loading_status: false};
+            return {
+                loading_status: false,
+                success: true,
+                amount: action.amount,
+                rates: action.rates,
+                base_currency_name: action.base_currency_name,
+                base_currency_code: action.base_currency_code,
+                updated_date: action.updated_date,
+            };
         }
         case ConverterActionTypes.CONVERT_ERROR: {
             return {loading_status: false, error: action.payload};

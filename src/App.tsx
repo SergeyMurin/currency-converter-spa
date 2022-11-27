@@ -1,10 +1,7 @@
-import React, {useEffect} from 'react';
-import {useAction} from "./hooks/use-action";
-import {useTypedSelector} from "./hooks/use-typed-selector";
+import React from 'react';
 import Converter from "./components/converter";
 import HistoricalRates from "./components/historical-rates";
-import LatestRates from "./components/latest-rates";
-import SupportedSymbols from "./components/supported-symbols";
+import AvailableCurrencies from "./components/available-currencies";
 
 
 const App = () => {
@@ -13,8 +10,7 @@ const App = () => {
             App
             <Converter/>
             <HistoricalRates/>
-            <LatestRates/>
-            <SupportedSymbols/>
+            <AvailableCurrencies/>
         </div>
     );
 }
