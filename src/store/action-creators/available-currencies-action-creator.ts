@@ -3,6 +3,16 @@ import {AvailableCurrenciesActionType, AvailableCurrenciesActionTypes} from "../
 import axios from "axios";
 
 
+const orderObject = (obj: any): {} => {
+    return Object.keys(obj)
+        .sort()
+        .reduce((accumulator: any, key: any) => {
+            accumulator[key] = obj[key];
+            return accumulator;
+        }, {});
+}
+
+
 export const getAvailableCurrencies = () => {
     return async (dispatch: Dispatch<AvailableCurrenciesActionType>) => {
         try {
@@ -16,9 +26,10 @@ export const getAvailableCurrencies = () => {
                 }
             };
             const data = await axios.request(options).then((response) => response.data);
+            const ordered: {} = orderObject(data.currencies);
             dispatch({
                 type: AvailableCurrenciesActionTypes.GET_AVAILABLE_CURRENCIES_SUCCESS,
-                currencies: data.currencies
+                currencies: ordered
             });
 
         } catch (error) {

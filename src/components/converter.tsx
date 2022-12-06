@@ -4,7 +4,7 @@ import {useAction} from "../hooks/use-action";
 
 const Converter: React.FC = () => {
     const {loading_status} = useTypedSelector(state => state.converter);
-
+    const {makeConversion} = useAction();
 
     return (
         <div className={"converter"}>
