@@ -3,3 +3,19 @@
     padding: 0;
     position: relative;
 }
+
+.currency-select {
+    width: 7.1rem;
+    font-size: 0.9rem;
+}
+
+.currency-option {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.currency-icon {
+    width: 0.9rem;
+    padding-right: 0.5rem;
+}

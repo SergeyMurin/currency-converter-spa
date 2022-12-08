@@ -1,11 +1,10 @@
 import React, {useEffect} from 'react';
 import "./app.css";
-import Converter from "./components/converter";
+import Converter from "./components/converter/converter";
 import HistoricalRates from "./components/historical-rates";
 import AvailableCurrencies from "./components/available-currencies";
 import {useAction} from "./hooks/use-action";
-import {DropdownSelect} from "./components/custom/dropdown-select/dropdown-select";
-import {Test} from "./test";
+import {CurrencySelect} from "./components/converter/currency-select/currency-select";
 
 
 const App = () => {
@@ -29,9 +28,7 @@ const App = () => {
             <Converter/>
             <HistoricalRates/>
             <AvailableCurrencies/>
-            {/*<CurrencySelect/>*/}
-            <DropdownSelect/>
-            <Test/>
+            <CurrencySelect/>
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import {useTypedSelector} from "../hooks/use-typed-selector";
-import {useAction} from "../hooks/use-action";
+import {useTypedSelector} from "../../hooks/use-typed-selector";
+import {useAction} from "../../hooks/use-action";
 
 const Converter: React.FC = () => {
     const {loading_status} = useTypedSelector(state => state.converter);
