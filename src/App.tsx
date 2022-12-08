@@ -5,6 +5,7 @@ import HistoricalRates from "./components/historical-rates";
 import AvailableCurrencies from "./components/available-currencies";
 import {useAction} from "./hooks/use-action";
 import {CurrencySelect} from "./components/converter/currency-select/currency-select";
+import {CurrencyInput} from "./components/converter/currency-input/currency-input";
 
 
 const App = () => {
@@ -28,7 +29,7 @@ const App = () => {
             <Converter/>
             <HistoricalRates/>
             <AvailableCurrencies/>
-            <CurrencySelect/>
+
         </div>
     );
 }

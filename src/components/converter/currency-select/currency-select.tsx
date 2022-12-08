@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
+import "./currency-select.css";
 import Select from 'react-select';
 import {CurrencySelectOptionType} from "../../../types/currency-select-option-types";
 import {useTypedSelector} from "../../../hooks/use-typed-selector";
-import {CurrencyWithFlagTypes, ICurrencyWithFlag} from "../../../types/currency-with-flag-types";
+import {CurrencyWithFlagTypes} from "../../../types/currency-with-flag-types";
 
 
 const generateOptions = (symbols: {}) => {
-
-    const options: CurrencySelectOptionType[] | any = [];
     const flags: [] = require("../../../assets/images/currencies-with-flags.json");
+    const options: CurrencySelectOptionType[] | any = [];
 
     for (let [key, value] of Object.entries(symbols)) {
         const currencyWithFlag: CurrencyWithFlagTypes | any = flags.find((obj: CurrencyWithFlagTypes) => {
@@ -23,9 +23,7 @@ const generateOptions = (symbols: {}) => {
             label:
                 <div className={"currency-option"}>
                     {currencyWithFlag?.flag ?
-                        <div className={"currency__icon"}>
-                            <img className={"currency-icon"} src={currencyWithFlag?.flag}></img>
-                        </div>
+                        <img className={"currency-icon"} src={currencyWithFlag?.flag}></img>
                         : <></>
                     }
                     <span>{currencyWithFlag.code}</span>
@@ -47,9 +45,12 @@ export const CurrencySelect: React.FC = () => {
         }
     }, [symbols]);
 
-    useEffect(()=>{
-        console.log("selected option:",selectedOption);
-    },[selectedOption])
+    useEffect(() => {
+        if (options) {
+            setSelectedOption(options[0]);
+        }
+    }, [options])
+
 
     const handleChange = (selectedOption: any) => {
         setSelectedOption(selectedOption);
@@ -58,6 +59,7 @@ export const CurrencySelect: React.FC = () => {
     return (
         <div className="currency__select">
             <Select
+                value={selectedOption}
                 className={"currency-select"}
                 defaultValue={selectedOption}
                 onChange={handleChange}

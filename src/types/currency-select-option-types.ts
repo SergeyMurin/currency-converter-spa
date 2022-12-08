@@ -1,6 +1,6 @@
 interface ICurrencySelectOption {
-    label: string | JSX.Element | null;
-    value: string | null;
+    label: string | JSX.Element | null | undefined;
+    value: string | null | undefined;
 }
 
 export type CurrencySelectOptionType = ICurrencySelectOption;
