@@ -10,9 +10,11 @@ type Props = {
     onTo?: (value: string) => void;
     onFrom?: (value: string) => void;
     amount?: string;
+    from?: string;
+    to?: string;
 }
 
-export const CurrencyInput: React.FC<Props> = ({isFrom, isTo, onAmount, onFrom, onTo, amount}: Props) => {
+export const CurrencyInput: React.FC<Props> = ({isFrom, isTo, onAmount, onFrom, onTo, amount, from, to}: Props) => {
     const [inputValue, setInputValue] = useState("");
 
     const inputValueHandler = (event: React.ChangeEvent) => {
@@ -71,6 +73,8 @@ export const CurrencyInput: React.FC<Props> = ({isFrom, isTo, onAmount, onFrom, 
                 isFrom={isFrom} isTo={isTo}
                 onTo={(value) => onTo ? onTo(value) : null}
                 onFrom={(value) => onFrom ? onFrom(value) : null}
+                from={from}
+                to={to}
             />
         </div>
     )
