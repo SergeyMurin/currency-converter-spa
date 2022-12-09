@@ -3,7 +3,7 @@ import "./currency-select.css";
 import Select from 'react-select';
 import {CurrencySelectOptionType} from "../../../types/currency-select-option-types";
 import {useTypedSelector} from "../../../hooks/use-typed-selector";
-import {CurrencyWithFlagTypes} from "../../../types/currency-with-flag-types";
+import {CurrencyWithFlagTypes, ICurrencyWithFlag} from "../../../types/currency-with-flag-types";
 
 
 type Props = {
@@ -24,9 +24,20 @@ export const CurrencySelect: React.FC<Props> = ({isFrom, isTo, onFrom, onTo, fro
         if (symbols) {
             const opts = generateOptions(symbols);
             setOptions(opts);
-            setSelectedOption(isFrom ? opts[0] : opts[1]);
         }
     }, [symbols]);
+
+    useEffect(()=>{
+        if(options){
+            const defaultCurrency = localStorage.getItem("converter-default-currency");
+            if (defaultCurrency) {
+                const opt: CurrencySelectOptionType = options.find((obj: CurrencySelectOptionType) => {
+                    return obj.value === defaultCurrency;
+                })
+                setSelectedOption(isFrom ? opt : getNotDisabledOption());
+            } else setSelectedOption(isFrom ? options[0] : getNotDisabledOption());
+        }
+    },[options])
 
 
     useEffect(() => {
@@ -65,6 +76,9 @@ export const CurrencySelect: React.FC<Props> = ({isFrom, isTo, onFrom, onTo, fro
         setSelectedOption(selectedOption);
     }
 
+    const defaultCurrencyHandler = () => {
+        localStorage.setItem("converter-default-currency", selectedOption.value);
+    }
 
     return (
         <div className="currency__select">
@@ -77,6 +91,7 @@ export const CurrencySelect: React.FC<Props> = ({isFrom, isTo, onFrom, onTo, fro
                 noOptionsMessage={() => "No currencies"}
             />
             <span>{selectedOption ? selectedOption.name : ""}</span>
+            <button onClick={defaultCurrencyHandler}>To favorites</button>
         </div>
     );
 };

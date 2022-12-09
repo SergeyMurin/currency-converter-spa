@@ -11,7 +11,7 @@ type Props = {
     onFrom?: (value: string) => void;
     amount?: string;
     from?: string;
-    to?: string
+    to?: string;
 }
 
 export const CurrencyInput: React.FC<Props> = ({isFrom, isTo, onAmount, onFrom, onTo, amount, from, to}: Props) => {
