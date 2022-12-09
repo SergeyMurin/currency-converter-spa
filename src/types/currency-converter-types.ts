@@ -12,7 +12,7 @@ export interface IConverterState {
 export interface IRate {
     currency_name: string | null,
     rate: string | null,
-    rate_for_amount: string | null,
+    rate_for_amount: string,
 }
 
 export enum ConverterActionTypes {

@@ -5,12 +5,7 @@ import {useAction} from "../hooks/use-action";
 
 const AvailableCurrencies: React.FC = () => {
     const {loading_status} = useTypedSelector(state => state.availableCurrencies);
-    const {getAvailableCurrencies} = useAction();
-    useEffect(() => {
-        setTimeout(() => {
-            getAvailableCurrencies();
-        }, 1100);
-    }, []);
+
     return (
         <div className={"supported-symbols"}>
             supported symbols {loading_status ? <b>Loading...</b> : <></>}
