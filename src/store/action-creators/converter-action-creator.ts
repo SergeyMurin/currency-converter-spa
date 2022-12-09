@@ -1,15 +1,16 @@
 import {Dispatch} from "react";
 import {ConverterActionType, ConverterActionTypes} from "../../types/currency-converter-types";
 import axios from "axios";
+import {ConverterParams} from "../../components/converter/converter";
 
-export const makeConversion = () => {
+export const makeConversion = (params: ConverterParams) => {
     return async (dispatch: Dispatch<ConverterActionType>) => {
         try {
             dispatch({type: ConverterActionTypes.CONVERT});
             const options = {
                 method: 'GET',
                 url: 'https://currency-converter5.p.rapidapi.com/currency/convert',
-                params: {format: 'json', from: 'AUD', to: 'CAD', amount: '1'},
+                params: {format: 'json', from: params.from, to: params.to, amount: params.amount},
                 headers: {
                     'X-RapidAPI-Key': 'a5c686aa77msh0ac3aff31c5b40fp164a17jsn5bdae1f6e7ef',
                     'X-RapidAPI-Host': 'currency-converter5.p.rapidapi.com'

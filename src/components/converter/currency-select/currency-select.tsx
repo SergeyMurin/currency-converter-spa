@@ -6,37 +6,16 @@ import {useTypedSelector} from "../../../hooks/use-typed-selector";
 import {CurrencyWithFlagTypes} from "../../../types/currency-with-flag-types";
 
 
-const generateOptions = (symbols: {}) => {
-    const flags: [] = require("../../../assets/images/currencies-with-flags.json");
-    const options: CurrencySelectOptionType[] | any = [];
-
-    for (let [key, value] of Object.entries(symbols)) {
-        const currencyWithFlag: CurrencyWithFlagTypes | any = flags.find((obj: CurrencyWithFlagTypes) => {
-            return obj.code === key;
-        });
-        if (typeof currencyWithFlag === "undefined") {
-            continue;
-        }
-
-        options.push({
-            value: currencyWithFlag?.code,
-            label:
-                <div className={"currency-option"}>
-                    {currencyWithFlag?.flag ?
-                        <img className={"currency-icon"} src={currencyWithFlag?.flag}></img>
-                        : <></>
-                    }
-                    <span>{currencyWithFlag.code}</span>
-
-                </div>
-        });
-    }
-    return options;
+type Props = {
+    isFrom: boolean;
+    isTo: boolean;
+    onFrom?: (value: string) => void;
+    onTo?: (value: string) => void;
 }
 
-export const CurrencySelect: React.FC = () => {
+export const CurrencySelect: React.FC<Props> = ({isFrom, isTo, onFrom, onTo}: Props) => {
     const [options, setOptions] = useState<any>(null);
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedOption, setSelectedOption] = useState<any>(null);
     const {symbols} = useTypedSelector(state => state.availableCurrencies);
 
     useEffect(() => {
@@ -47,9 +26,21 @@ export const CurrencySelect: React.FC = () => {
 
     useEffect(() => {
         if (options) {
-            setSelectedOption(options[0]);
+            setSelectedOption(options[isFrom ? 0 : 1]);
         }
-    }, [options])
+    }, [options]);
+
+    useEffect(() => {
+        if (selectedOption) {
+            if (isFrom) {
+                if (onFrom) {
+                    onFrom(selectedOption.value);
+                }
+            } else if (onTo) {
+                onTo(selectedOption.value)
+            }
+        }
+    }, [selectedOption])
 
 
     const handleChange = (selectedOption: any) => {
@@ -66,6 +57,35 @@ export const CurrencySelect: React.FC = () => {
                 options={options}
                 noOptionsMessage={() => "No currencies"}
             />
+            <span>{selectedOption ? selectedOption.name : ""}</span>
         </div>
     );
+};
+
+const generateOptions = (symbols: {}) => {
+    const flags: [] = require("../../../assets/images/currencies-with-flags.json");
+    const options: CurrencySelectOptionType[] | any = [];
+
+    for (let [key, value] of Object.entries(symbols)) {
+        const currencyWithFlag: CurrencyWithFlagTypes | any = flags.find((obj: CurrencyWithFlagTypes) => {
+            return obj.code === key;
+        });
+        if (typeof currencyWithFlag === "undefined") {
+            continue;
+        }
+
+        options.push({
+            value: currencyWithFlag?.code,
+            name: currencyWithFlag?.name,
+            label:
+                <div className={"currency-option"}>
+                    {currencyWithFlag?.flag ?
+                        <img className={"currency-icon"} src={currencyWithFlag?.flag} alt={""}></img>
+                        : <></>
+                    }
+                    <span>{currencyWithFlag.code}</span>
+                </div>
+        });
+    }
+    return options;
 }
