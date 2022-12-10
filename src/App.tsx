@@ -12,20 +12,6 @@ import {Layout} from "./components/layout/layout";
 
 
 const App = () => {
-    const {getAvailableCurrencies} = useAction();
-    const {getHistoricalRates} = useAction();
-    const initRequests = [getAvailableCurrencies, getHistoricalRates];
-    useEffect(() => {
-        let requestIndex = 0;
-        const interval = 1000;
-        const timer = setInterval(async () => {
-            await initRequests[requestIndex]();
-            if (requestIndex === initRequests.length - 1) {
-                clearInterval(timer);
-            }
-            requestIndex++;
-        }, interval)
-    }, []);
     return (
         <>
             <Routes>
@@ -40,3 +26,15 @@ const App = () => {
     );
 }
 export default App;
+
+
+export const setIntervalForRequest = (requests: { (): void }[], interval: number) => {
+    let requestIndex = 0;
+    const timer = setInterval(async () => {
+        await requests[requestIndex]();
+        if (requestIndex === requests.length - 1) {
+            clearInterval(timer);
+        }
+        requestIndex++;
+    }, interval)
+}

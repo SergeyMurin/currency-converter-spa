@@ -1,10 +1,10 @@
-import HistoricalRates from "../components/historical-rates";
 import React from "react";
+import {Rates} from "../components/rates/rates";
 
 export const RatesPage: React.FC = () => {
     return (
         <>
-            <HistoricalRates/>
+            <Rates/>
         </>
     )
 }

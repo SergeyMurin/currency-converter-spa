@@ -3,6 +3,7 @@ import {useTypedSelector} from "../../hooks/use-typed-selector";
 import {useAction} from "../../hooks/use-action";
 import {CurrencyInput} from "./currency-input/currency-input";
 import {IRate} from "../../types/currency-converter-types";
+import {setIntervalForRequest} from "../../App";
 
 export type ConverterParams = {
     from: string,
@@ -20,6 +21,12 @@ const Converter: React.FC = () => {
     const {rates} = useTypedSelector(state => state.converter);
     const [rate, setRate] = useState<IRate>();
     const [reverse, setReverse] = useState(false);
+
+    const {getAvailableCurrencies} = useAction();
+    const initRequests = [getAvailableCurrencies];
+    useEffect(() => {
+        setIntervalForRequest(initRequests, 1000);
+    }, []);
 
 
     useEffect(() => {
@@ -77,12 +84,6 @@ const Converter: React.FC = () => {
             <CurrencyInput isFrom={false} isTo={true} onTo={toHandler}
                            amount={rate && amount ? rate.rate_for_amount : ""}
                            from={from} to={to} reverse={reverse}/>
-            <div style={{height:"10rem"}}>aa</div>
-            <div style={{height:"10rem"}}>aa</div>
-            <div style={{height:"10rem"}}>aa</div>
-            <div style={{height:"10rem"}}>aa</div>
-            <div style={{height:"10rem"}}>aa</div>
-            <div style={{height:"10rem"}}>aa</div>
 
         </div>
     );
