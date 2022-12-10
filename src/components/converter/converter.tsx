@@ -74,8 +74,16 @@ const Converter: React.FC = () => {
             <CurrencyInput isFrom={true} isTo={false} onAmount={amountHandler} onFrom={fromHandler} from={from}
                            to={to} reverse={reverse}/>
             <button onClick={buttonHandler}>reverse</button>
-            <CurrencyInput isFrom={false} isTo={true} onTo={toHandler} amount={rate ? rate.rate_for_amount : ""}
+            <CurrencyInput isFrom={false} isTo={true} onTo={toHandler}
+                           amount={rate && amount ? rate.rate_for_amount : ""}
                            from={from} to={to} reverse={reverse}/>
+            <div style={{height:"10rem"}}>aa</div>
+            <div style={{height:"10rem"}}>aa</div>
+            <div style={{height:"10rem"}}>aa</div>
+            <div style={{height:"10rem"}}>aa</div>
+            <div style={{height:"10rem"}}>aa</div>
+            <div style={{height:"10rem"}}>aa</div>
+
         </div>
     );
 };

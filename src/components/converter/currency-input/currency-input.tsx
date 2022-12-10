@@ -29,6 +29,8 @@ export const CurrencyInput: React.FC<Props> = ({isFrom, isTo, onAmount, onFrom, 
         }
     };
 
+
+
     const keyDownHandler = (event: any) => {
         if (event.key === "Enter") {
             inputValuePrettier(event);

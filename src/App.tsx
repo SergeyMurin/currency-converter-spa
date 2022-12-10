@@ -4,7 +4,11 @@ import Converter from "./components/converter/converter";
 import HistoricalRates from "./components/historical-rates";
 import AvailableCurrencies from "./components/available-currencies";
 import {useAction} from "./hooks/use-action";
-
+import {Route, Routes} from "react-router-dom";
+import {ConverterPage} from "./pages/converter-page";
+import {RatesPage} from "./pages/rates-page";
+import {NotFoundPage} from "./pages/not-found-page";
+import {Layout} from "./components/layout/layout";
 
 
 const App = () => {
@@ -23,13 +27,16 @@ const App = () => {
         }, interval)
     }, []);
     return (
-        <div className="App">
-            App
-            <Converter/>
-            <HistoricalRates/>
+        <>
+            <Routes>
+                <Route path={"/"} element={<Layout/>}>
+                    <Route index element={<ConverterPage/>}/>
+                    <Route path={"rates"} element={<RatesPage/>}/>
+                    <Route path={"*"} element={<NotFoundPage/>}/>
+                </Route>
+            </Routes>
             <AvailableCurrencies/>
-
-        </div>
+        </>
     );
 }
 export default App;
