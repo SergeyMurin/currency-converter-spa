@@ -7,14 +7,15 @@ type Props = {
     isFrom: boolean;
     isTo: boolean;
     onAmount?: (value: string) => void;
-    onTo?: (value: string) => void;
-    onFrom?: (value: string) => void;
+    onTo?: (value: string | null | undefined) => void;
+    onFrom?: (value: string | null | undefined) => void;
     amount?: string;
     from?: string;
     to?: string;
+    reverse: boolean;
 }
 
-export const CurrencyInput: React.FC<Props> = ({isFrom, isTo, onAmount, onFrom, onTo, amount, from, to}: Props) => {
+export const CurrencyInput: React.FC<Props> = ({isFrom, isTo, onAmount, onFrom, onTo, amount, from, to,reverse}: Props) => {
     const [inputValue, setInputValue] = useState("");
 
     const inputValueHandler = (event: React.ChangeEvent) => {
@@ -70,6 +71,7 @@ export const CurrencyInput: React.FC<Props> = ({isFrom, isTo, onAmount, onFrom, 
                    onKeyDown={(event) => keyDownHandler(event)}
             />
             <CurrencySelect
+                reverse={reverse}
                 isFrom={isFrom} isTo={isTo}
                 onTo={(value) => onTo ? onTo(value) : null}
                 onFrom={(value) => onFrom ? onFrom(value) : null}

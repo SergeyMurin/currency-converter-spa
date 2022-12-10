@@ -19,6 +19,7 @@ const Converter: React.FC = () => {
     const {makeConversion} = useAction();
     const {rates} = useTypedSelector(state => state.converter);
     const [rate, setRate] = useState<IRate>();
+    const [reverse, setReverse] = useState(false);
 
 
     useEffect(() => {
@@ -38,12 +39,12 @@ const Converter: React.FC = () => {
         !!value ? setConvertIsDisable(false) : setConvertIsDisable(true);
     }
 
-    const fromHandler = (value: string) => {
-        setFrom(value);
+    const fromHandler = (value: string | null | undefined) => {
+        setFrom(value ? value : "");
     }
 
-    const toHandler = (value: string) => {
-        setTo(value);
+    const toHandler = (value: string | null | undefined) => {
+        setTo(value ? value : "");
     }
 
     const setRateFromRates = (rates: any) => {
@@ -60,14 +61,21 @@ const Converter: React.FC = () => {
         setRate(rate);
     }
 
+    const buttonHandler = () => {
+        setFrom(to);
+        setTo(from);
+        setReverse(true);
+    }
+
 
     return (
         <div className={"converter"}>
             converter {loading_status ? <b>Loading...</b> : <></>}
             <CurrencyInput isFrom={true} isTo={false} onAmount={amountHandler} onFrom={fromHandler} from={from}
-                           to={to}/>
+                           to={to} reverse={reverse}/>
+            <button onClick={buttonHandler}>reverse</button>
             <CurrencyInput isFrom={false} isTo={true} onTo={toHandler} amount={rate ? rate.rate_for_amount : ""}
-                           from={from} to={to}/>
+                           from={from} to={to} reverse={reverse}/>
         </div>
     );
 };

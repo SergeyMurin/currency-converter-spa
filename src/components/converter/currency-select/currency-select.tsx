@@ -9,13 +9,14 @@ import {CurrencyWithFlagTypes, ICurrencyWithFlag} from "../../../types/currency-
 type Props = {
     isFrom: boolean;
     isTo: boolean;
-    onFrom?: (value: string) => void;
-    onTo?: (value: string) => void;
+    onFrom?: (value: string | null | undefined) => void;
+    onTo?: (value: string | null | undefined) => void;
     from?: string;
     to?: string;
+    reverse: boolean;
 }
 
-export const CurrencySelect: React.FC<Props> = ({isFrom, isTo, onFrom, onTo, from, to}: Props) => {
+export const CurrencySelect: React.FC<Props> = ({isFrom, isTo, onFrom, onTo, from, to, reverse}: Props) => {
     const [options, setOptions] = useState<any>(null);
     const [selectedOption, setSelectedOption] = useState<any>(null);
     const {symbols} = useTypedSelector(state => state.availableCurrencies);
@@ -27,43 +28,54 @@ export const CurrencySelect: React.FC<Props> = ({isFrom, isTo, onFrom, onTo, fro
         }
     }, [symbols]);
 
-    useEffect(()=>{
-        if(options){
+    useEffect(() => {
+        if (options?.length) {
+            disableDuplicatedOptions();
+            const notDisabled = getNotDisabledOption();
             const defaultCurrency = localStorage.getItem("converter-default-currency");
-            if (defaultCurrency) {
-                const opt: CurrencySelectOptionType = options.find((obj: CurrencySelectOptionType) => {
-                    return obj.value === defaultCurrency;
-                })
-                setSelectedOption(isFrom ? opt : getNotDisabledOption());
-            } else setSelectedOption(isFrom ? options[0] : getNotDisabledOption());
+            if (defaultCurrency && isFrom) {
+                const opt: CurrencySelectOptionType = findOptionByCurrency(defaultCurrency);
+                setSelectedOption(opt);
+                if (onFrom) {
+                    onFrom(opt.value)
+                }
+            } else setSelectedOption(isFrom ? options[0] : notDisabled);
+            if (isTo && onTo) {
+                onTo(notDisabled.value);
+            }
         }
-    },[options])
+    }, [options])
 
 
     useEffect(() => {
-        disableDuplicatedOptions();
+        if (options?.length) {
+            disableDuplicatedOptions();
+        }
+        if (reverse) {
+            isFrom ? setSelectedOption(findOptionByCurrency(from)) : setSelectedOption(findOptionByCurrency(to));
+        }
     }, [from, to]);
 
     useEffect(() => {
+        if (selectedOption?.isDisabled && isTo) {
+            setSelectedOption(getNotDisabledOption());
+        }
         if (selectedOption) {
-            if (isFrom) {
-                if (onFrom) {
-                    onFrom(selectedOption.value);
-                }
-            } else if (onTo) {
+            if (isFrom && onFrom) {
+                onFrom(selectedOption.value);
+            } else if (onTo && onTo) {
                 onTo(selectedOption.value)
             }
         }
     }, [selectedOption]);
 
     const disableDuplicatedOptions = () => {
-        const newOptions: CurrencySelectOptionType[] = options?.map((obj: CurrencySelectOptionType) => {
+        options?.map((obj: CurrencySelectOptionType) => {
             if (isTo) {
                 obj.isDisabled = obj.value === from;
             } else obj.isDisabled = obj.value === to;
             return obj;
         });
-        setOptions(options ? newOptions : null);
     }
 
     const getNotDisabledOption = () => {
@@ -78,6 +90,12 @@ export const CurrencySelect: React.FC<Props> = ({isFrom, isTo, onFrom, onTo, fro
 
     const defaultCurrencyHandler = () => {
         localStorage.setItem("converter-default-currency", selectedOption.value);
+    }
+
+    const findOptionByCurrency = (currency: string | undefined): CurrencySelectOptionType => {
+        return options.find((obj: CurrencySelectOptionType) => {
+            return obj.value === currency;
+        })
     }
 
     return (
