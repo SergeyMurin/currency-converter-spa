@@ -5,28 +5,18 @@ import {CurrencyInput} from "./currency-input/currency-input";
 import {IRate} from "../../types/currency-converter-types";
 import {setIntervalForRequest} from "../../App";
 
-export type ConverterParams = {
-    from: string,
-    to: string,
-    amount: string,
-}
 
 const Converter: React.FC = () => {
-    const {loading_status} = useTypedSelector(state => state.converter);
     const [amount, setAmount] = useState<string>("");
     const [to, setTo] = useState<string>("");
     const [from, setFrom] = useState<string>("");
     const [convertIsDisable, setConvertIsDisable] = useState<boolean>(true);
-    const {makeConversion} = useAction();
-    const {rates} = useTypedSelector(state => state.converter);
     const [rate, setRate] = useState<IRate>();
     const [reverse, setReverse] = useState(false);
 
-    const {getAvailableCurrencies} = useAction();
-    const initRequests = [getAvailableCurrencies];
-    useEffect(() => {
-        setIntervalForRequest(initRequests, 1000);
-    }, []);
+    const {loading_status} = useTypedSelector(state => state.converter);
+    const {rates} = useTypedSelector(state => state.converter);
+    const {makeConversion} = useAction();
 
 
     useEffect(() => {

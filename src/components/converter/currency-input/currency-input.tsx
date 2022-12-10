@@ -15,7 +15,17 @@ type Props = {
     reverse: boolean;
 }
 
-export const CurrencyInput: React.FC<Props> = ({isFrom, isTo, onAmount, onFrom, onTo, amount, from, to,reverse}: Props) => {
+export const CurrencyInput: React.FC<Props> = ({
+                                                   isFrom,
+                                                   isTo,
+                                                   onAmount,
+                                                   onFrom,
+                                                   onTo,
+                                                   amount,
+                                                   from,
+                                                   to,
+                                                   reverse
+                                               }: Props) => {
     const [inputValue, setInputValue] = useState("");
 
     const inputValueHandler = (event: React.ChangeEvent) => {
@@ -28,8 +38,6 @@ export const CurrencyInput: React.FC<Props> = ({isFrom, isTo, onAmount, onFrom, 
             setInputValue(value);
         }
     };
-
-
 
     const keyDownHandler = (event: any) => {
         if (event.key === "Enter") {
@@ -63,6 +71,10 @@ export const CurrencyInput: React.FC<Props> = ({isFrom, isTo, onAmount, onFrom, 
         }
     }
 
+    const copyToClipBoard = async () => {
+        await navigator.clipboard.writeText(amount ? amount : "");
+    }
+
     return (
         <div className={"currency__input"}>
             <input className={"currency-input"}
@@ -80,6 +92,7 @@ export const CurrencyInput: React.FC<Props> = ({isFrom, isTo, onAmount, onFrom, 
                 from={from}
                 to={to}
             />
+            <button onClick={copyToClipBoard}>copy</button>
         </div>
     )
 }

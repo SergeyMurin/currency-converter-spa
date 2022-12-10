@@ -12,6 +12,12 @@ import {Layout} from "./components/layout/layout";
 
 
 const App = () => {
+    const {getAvailableCurrencies} = useAction();
+    const initRequests = [getAvailableCurrencies];
+
+    useEffect(() => {
+        setIntervalForRequest(initRequests, 1000);
+    }, []);
     return (
         <>
             <Routes>

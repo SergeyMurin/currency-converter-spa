@@ -1,23 +1,46 @@
 import React, {useEffect, useState} from "react";
 import {useTypedSelector} from "../../hooks/use-typed-selector";
 import {useAction} from "../../hooks/use-action";
-import {setIntervalForRequest} from "../../App";
 import {DateInput} from "./date-input";
+import {RatesList} from "./rates-list";
+import {CurrencySelect} from "../converter/currency-select/currency-select";
+
 
 export const Rates: React.FC = () => {
     const {loading_status} = useTypedSelector(state => state.historicalRates);
-    const {getHistoricalRates} = useAction();
-    const initRequests = [getHistoricalRates];
+    const {symbols} = useTypedSelector(state => state.availableCurrencies);
 
+    const {getHistoricalRates} = useAction();
+    const [currency, setCurrency] = useState("");
+    const [date, setDate] = useState("");
+    const {rates} = useTypedSelector(state => state.historicalRates);
+
+    const fromHandler = (value: string | null | undefined) => {
+        setCurrency(value ? value : "");
+    }
 
     useEffect(() => {
-        setIntervalForRequest(initRequests, 1000);
-    }, []);
+        if (symbols && date && currency) {
+            getHistoricalRates({from: currency, to: "", amount: "1", date: date});
+        }
+    }, [currency, date, symbols]);
 
+    const dateChangeHandler = (newDate: string) => {
+        setDate(newDate);
+    }
     return (
         <div className={"rates"}>
-            <DateInput/>
-            {loading_status ? <b>Loading...</b> : <></>}
+            <CurrencySelect isFrom={true} isTo={false} from={currency} onFrom={fromHandler}/>
+            <DateInput onDateChange={dateChangeHandler}/>
+            {loading_status ? <b>Loading...</b> : <RatesList rates={rates} currency={currency}/>}
         </div>
     )
+};
+
+const toCurrencyString = (symbols: {}): string => {
+    let currencyString = "";
+    for (let [key, value] of Object.entries(symbols)) {
+        currencyString += key;
+    }
+    return currencyString;
 }

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 
 const getTodayDate = (): Date => {
     let date = new Date()
@@ -19,21 +19,34 @@ const isFutureDate = (dateValue: string): boolean => {
     return date >= nowDate;
 }
 
-export const DateInput: React.FC = () => {
-    const [value, setValue] = useState<string>(getFormattedTodayDate());
-    console.log(isFutureDate(value));
+type Props = {
+    onDateChange: (date: string) => void;
+}
 
+export const DateInput: React.FC<Props> = ({onDateChange}) => {
+    const [value, setValue] = useState<string>(getFormattedTodayDate());
+    useEffect(() => {
+        onDateChange(value);
+    }, []);
 
     const valueHandler = (event: ChangeEvent) => {
-        if ((event.target as HTMLInputElement).value) {
-            setValue((event.target as HTMLInputElement).value);
-        } else setValue(getFormattedTodayDate());
+        const targetValue = (event.target as HTMLInputElement).value
+        if (targetValue && !isFutureDate(targetValue)) {
+            setValue(targetValue);
+        } else {
+            const date = getFormattedTodayDate()
+            setValue(date);
+        }
+    }
+
+    const blurHandler = () => {
+        onDateChange(value);
     }
     return (
         <div className={"date__input"}>
             <input type={"date"} value={value} onChange={(event) => {
                 valueHandler(event)
-            }}/>
+            }} onBlur={blurHandler}/>
         </div>
     )
 }

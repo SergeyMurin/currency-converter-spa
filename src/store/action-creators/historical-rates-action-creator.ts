@@ -2,16 +2,22 @@ import {Dispatch} from "react";
 import {HistoricalRatesActionType, HistoricalRatesActionTypes} from "../../types/historical-rates-types";
 import axios from "axios";
 
+export type RatesParams = {
+    from: string,
+    amount: string,
+    to: string,
+    date: string,
+}
 
-export const getHistoricalRates = () => {
+export const getHistoricalRates = (params: RatesParams) => {
     return async (dispatch: Dispatch<HistoricalRatesActionType>) => {
         try {
             dispatch({type: HistoricalRatesActionTypes.GET_HISTORICAL_RATES});
 
             const options = {
                 method: 'GET',
-                url: 'https://currency-converter5.p.rapidapi.com/currency/historical/2020-01-20',
-                params: {from: 'EUR', amount: '1', format: 'json', to: 'GBP'},
+                url: `https://currency-converter5.p.rapidapi.com/currency/historical/${params.date}`,
+                params: {from: params.from, amount: params.amount, format: 'json', to: params.to},
                 headers: {
                     'X-RapidAPI-Key': 'a5c686aa77msh0ac3aff31c5b40fp164a17jsn5bdae1f6e7ef',
                     'X-RapidAPI-Host': 'currency-converter5.p.rapidapi.com'

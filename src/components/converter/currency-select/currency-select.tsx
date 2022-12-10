@@ -13,7 +13,7 @@ type Props = {
     onTo?: (value: string | null | undefined) => void;
     from?: string;
     to?: string;
-    reverse: boolean;
+    reverse?: boolean;
 }
 
 export const CurrencySelect: React.FC<Props> = ({isFrom, isTo, onFrom, onTo, from, to, reverse}: Props) => {

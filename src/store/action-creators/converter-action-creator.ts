@@ -1,7 +1,12 @@
 import {Dispatch} from "react";
 import {ConverterActionType, ConverterActionTypes} from "../../types/currency-converter-types";
 import axios from "axios";
-import {ConverterParams} from "../../components/converter/converter";
+
+export type ConverterParams = {
+    from: string,
+    to: string,
+    amount: string,
+}
 
 export const makeConversion = (params: ConverterParams) => {
     return async (dispatch: Dispatch<ConverterActionType>) => {
