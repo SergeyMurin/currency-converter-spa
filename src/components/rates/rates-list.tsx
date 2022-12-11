@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {useAction} from "../../hooks/use-action";
+import {useTypedSelector} from "../../hooks/use-typed-selector";
 
 type Props = {
-    rates: {} | any,
     currency: string,
 }
 
@@ -13,22 +13,26 @@ type Rate = {
     isFavorite: boolean;
 }
 
-export const RatesList: React.FC<Props> = ({rates, currency}) => {
+export const RatesList: React.FC<Props> = ({currency}) => {
     const [list, setList] = useState<JSX.Element[] | null>(null);
+    const {rates} = useTypedSelector(state => state.historicalRates);
+    const [tempRates, setTempRates] = useState(structuredClone(rates));
 
     useEffect(() => {
-        if (rates) {
+        if (tempRates) {
             setList(makeList());
         }
-    }, [rates])
+    }, [tempRates])
 
     const removeFavoriteHandler = (key: string, value: Rate) => {
         removeFavoriteRateFromLocalStorage(currency, key, value);
+        setTempRates(tempRates)
         setList(makeList());
     }
 
     const addFavoriteHandler = (key: string, value: Rate) => {
         addFavoriteRateToLocalStorage(currency, key, value);
+        setTempRates(tempRates)
         setList(makeList());
     }
     type FavoriteRate = {
@@ -66,28 +70,34 @@ export const RatesList: React.FC<Props> = ({rates, currency}) => {
         }
     }
 
-    const findFavoriteRate = (favoriteRates: FavoriteRate[], from: string, to: string): FavoriteRate | null => {
+    const findFavoriteRate = (favoriteRates: FavoriteRate[], from: string, to: string, value?: Rate): FavoriteRate | null => {
         const foundValue = favoriteRates?.find((favoriteRate) => {
             return favoriteRate.from === from && favoriteRate.to === to;
         })
+        if (foundValue && value) {
+            value.isFavorite = true;
+        }
         return foundValue ? foundValue : null;
     }
 
     const makeList = () => {
         const favoriteRatesStr = localStorage.getItem("favorite-rates");
         const favoriteRates: FavoriteRate[] = favoriteRatesStr ? JSON.parse(favoriteRatesStr) : null;
-        const sortedRates = Object.keys(rates)
+        const sortedRates = Object.keys(tempRates)
             .sort()
             .reduce((accumulator: any, key) => {
-                accumulator[key] = rates[key];
+                accumulator[key] = tempRates[key];
                 return accumulator;
             }, {});
         const defaultAmount = "1";
         const list: JSX.Element[] = [];
         for (let [key, value] of Object.entries(sortedRates)) {
+            if (currency === key) {
+                continue;
+            }
             const listItem =
                 <div className={"rate"} style={{height: "40px"}} key={key}>
-                    {(value as Rate)?.isFavorite || findFavoriteRate(favoriteRates, currency, key) ?
+                    {(value as Rate)?.isFavorite || findFavoriteRate(favoriteRates, currency, key, (value as Rate)) ?
                         <button
                             onClick={() => removeFavoriteHandler(key, (value as Rate))}>remove
                         </button> :
@@ -107,7 +117,7 @@ export const RatesList: React.FC<Props> = ({rates, currency}) => {
 
     return (
         <div className={"rates__list"} style={{height: "300px", overflowY: "auto"}}>
-            {rates && list ? list : <></>}
+            {tempRates && list ? list : <></>}
         </div>
     )
 }

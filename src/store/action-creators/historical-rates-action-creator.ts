@@ -9,6 +9,10 @@ export type RatesParams = {
     date: string,
 }
 
+type Rate = {
+    isFavorite: boolean;
+}
+
 export const getHistoricalRates = (params: RatesParams) => {
     return async (dispatch: Dispatch<HistoricalRatesActionType>) => {
         try {
@@ -24,6 +28,11 @@ export const getHistoricalRates = (params: RatesParams) => {
                 }
             };
             const data = await axios.request(options).then(response => response.data);
+
+            for (let [key, value] of Object.entries(data.rates)) {
+                (value as Rate).isFavorite = false;
+            }
+
             dispatch({
                 type: HistoricalRatesActionTypes.GET_HISTORICAL_RATES_SUCCESS,
                 amount: data.amount,

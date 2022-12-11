@@ -13,7 +13,6 @@ export const Rates: React.FC = () => {
     const {getHistoricalRates} = useAction();
     const [currency, setCurrency] = useState("");
     const [date, setDate] = useState("");
-    const {rates} = useTypedSelector(state => state.historicalRates);
 
     const fromHandler = (value: string | null | undefined) => {
         setCurrency(value ? value : "");
@@ -34,7 +33,7 @@ export const Rates: React.FC = () => {
         <div className={"rates"}>
             <CurrencySelect isFrom={true} isTo={false} from={currency} onFrom={fromHandler}/>
             <DateInput onDateChange={dateChangeHandler}/>
-            {loading_status ? <b>Loading...</b> : <RatesList rates={rates} currency={currency}/>}
+            {loading_status ? <b>Loading...</b> : <RatesList currency={currency}/>}
         </div>
     )
 };
