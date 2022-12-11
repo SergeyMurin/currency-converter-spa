@@ -42,11 +42,18 @@ export const DateInput: React.FC<Props> = ({onDateChange}) => {
     const blurHandler = () => {
         onDateChange(value);
     }
+
+    const keyDownHandler = (event: any) => {
+        if (event.key === "Enter") {
+            onDateChange(value);
+        }
+    }
+
     return (
         <div className={"date__input"}>
             <input type={"date"} value={value} onChange={(event) => {
                 valueHandler(event)
-            }} onBlur={blurHandler}/>
+            }} onBlur={blurHandler} onKeyDown={keyDownHandler}/>
         </div>
     )
 }

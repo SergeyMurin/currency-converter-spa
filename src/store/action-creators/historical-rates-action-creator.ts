@@ -41,3 +41,13 @@ export const getHistoricalRates = (params: RatesParams) => {
         }
     }
 }
+
+export const setRates = (rates: {}) => {
+    return (dispatch: Dispatch<HistoricalRatesActionType>) => {
+        try {
+            dispatch({type: HistoricalRatesActionTypes.SET_RATES, rates: rates})
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}

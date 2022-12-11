@@ -28,6 +28,8 @@ export const Rates: React.FC = () => {
     const dateChangeHandler = (newDate: string) => {
         setDate(newDate);
     }
+
+
     return (
         <div className={"rates"}>
             <CurrencySelect isFrom={true} isTo={false} from={currency} onFrom={fromHandler}/>
