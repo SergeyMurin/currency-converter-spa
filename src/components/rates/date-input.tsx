@@ -27,7 +27,8 @@ export const DateInput: React.FC<Props> = ({onDateChange}) => {
     const [value, setValue] = useState<string>(getFormattedTodayDate());
     useEffect(() => {
         onDateChange(value);
-    }, []);
+    }, [value]);
+
 
     const valueHandler = (event: ChangeEvent) => {
         const targetValue = (event.target as HTMLInputElement).value
@@ -40,13 +41,17 @@ export const DateInput: React.FC<Props> = ({onDateChange}) => {
     }
 
     const blurHandler = () => {
-        onDateChange(value);
+        setValue(getFormattedTodayDate);
     }
 
     const keyDownHandler = (event: any) => {
         if (event.key === "Enter") {
-            onDateChange(value);
+            setValue(getFormattedTodayDate);
         }
+    }
+
+    const todayHandler = () => {
+        setValue(getFormattedTodayDate);
     }
 
     return (
@@ -54,6 +59,7 @@ export const DateInput: React.FC<Props> = ({onDateChange}) => {
             <input type={"date"} value={value} onChange={(event) => {
                 valueHandler(event)
             }} onBlur={blurHandler} onKeyDown={keyDownHandler}/>
+            <button onClick={todayHandler}>today</button>
         </div>
     )
 }

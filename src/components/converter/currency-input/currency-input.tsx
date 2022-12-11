@@ -13,6 +13,8 @@ type Props = {
     from?: string;
     to?: string;
     reverse: boolean;
+    favorite: string;
+    onFavoriteChange?: (value: string) => void;
 }
 
 export const CurrencyInput: React.FC<Props> = ({
@@ -24,7 +26,8 @@ export const CurrencyInput: React.FC<Props> = ({
                                                    amount,
                                                    from,
                                                    to,
-                                                   reverse
+                                                   reverse,
+                                                   favorite, onFavoriteChange
                                                }: Props) => {
     const [inputValue, setInputValue] = useState("");
 
@@ -85,6 +88,8 @@ export const CurrencyInput: React.FC<Props> = ({
                    onKeyDown={(event) => keyDownHandler(event)}
             />
             <CurrencySelect
+                onFavoriteChange={onFavoriteChange}
+                favorite={favorite}
                 reverse={reverse}
                 isFrom={isFrom} isTo={isTo}
                 onTo={(value) => onTo ? onTo(value) : null}

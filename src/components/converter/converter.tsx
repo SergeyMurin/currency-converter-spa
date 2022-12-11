@@ -13,10 +13,14 @@ const Converter: React.FC = () => {
     const [convertIsDisable, setConvertIsDisable] = useState<boolean>(true);
     const [rate, setRate] = useState<IRate>();
     const [reverse, setReverse] = useState(false);
-
     const {loading_status} = useTypedSelector(state => state.converter);
     const {rates} = useTypedSelector(state => state.converter);
     const {makeConversion} = useAction();
+
+    const [favorite, setFavorite] = useState("");
+    const onFavoriteChange = (value: string) => {
+        setFavorite(value);
+    }
 
 
     useEffect(() => {
@@ -69,11 +73,12 @@ const Converter: React.FC = () => {
         <div className={"converter"}>
             converter {loading_status ? <b>Loading...</b> : <></>}
             <CurrencyInput isFrom={true} isTo={false} onAmount={amountHandler} onFrom={fromHandler} from={from}
-                           to={to} reverse={reverse}/>
+                           to={to} reverse={reverse} favorite={favorite} onFavoriteChange={onFavoriteChange}/>
             <button onClick={buttonHandler}>reverse</button>
             <CurrencyInput isFrom={false} isTo={true} onTo={toHandler}
                            amount={rate && amount ? rate.rate_for_amount : ""}
-                           from={from} to={to} reverse={reverse}/>
+                           from={from} to={to} reverse={reverse} favorite={favorite}
+                           onFavoriteChange={onFavoriteChange}/>
 
         </div>
     );
