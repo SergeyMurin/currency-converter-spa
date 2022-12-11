@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "./currency-input.css";
 import {CurrencySelect} from "../currency-select/currency-select";
-import availableCurrencies from "../../available-currencies";
+import copyIcon from "../../../assets/icons/svg/copy.svg";
 
 type Props = {
     isFrom: boolean;
@@ -15,11 +15,35 @@ type Props = {
     reverse: boolean;
     favorite: string;
     onFavoriteChange: (value: string) => void;
+    forAmount?: string;
 }
 
 export const CurrencyInput: React.FC<Props> = (
-    {isFrom, isTo, onAmount, onFrom, onTo, amount, from, to, reverse, favorite, onFavoriteChange}: Props) => {
-    const [inputValue, setInputValue] = useState("");
+    {
+        isFrom,
+        isTo,
+        onAmount,
+        onFrom,
+        onTo,
+        amount,
+        from,
+        to,
+        reverse,
+        favorite,
+        onFavoriteChange,
+        forAmount
+    }: Props) => {
+    const [inputValue, setInputValue] = useState(amount ? amount : "");
+
+    useEffect(() => {
+        setInputValue(amount ? amount : inputValue);
+    }, [amount]);
+
+    useEffect(() => {
+        if (!forAmount) {
+            setInputValue("")
+        }
+    }, [forAmount])
 
     const inputValueHandler = (event: React.ChangeEvent) => {
         if (isTo) {
@@ -64,7 +88,7 @@ export const CurrencyInput: React.FC<Props> = (
     }
 
     const copyToClipBoard = async () => {
-        await navigator.clipboard.writeText(amount ? amount : "");
+        await navigator.clipboard.writeText(inputValue ? inputValue : "");
     }
 
     return (
@@ -76,6 +100,14 @@ export const CurrencyInput: React.FC<Props> = (
                    placeholder={"0.00"}
                    onKeyDown={(event) => keyDownHandler(event)}
             />
+            {inputValue ?
+                <div className={"icon__container"} onClick={copyToClipBoard}>
+                    <img id={"copy-icon"} className={"icon"} src={copyIcon.toString()}/>
+                </div>
+                : <div className={"icon__container"}>
+                    <img id={"copy-icon"} className={"icon disabled"} src={copyIcon.toString()}/>
+                </div>
+            }
             <CurrencySelect
                 onFavoriteChange={onFavoriteChange}
                 favorite={favorite}
@@ -86,7 +118,6 @@ export const CurrencyInput: React.FC<Props> = (
                 from={from}
                 to={to}
             />
-            <button onClick={copyToClipBoard}>copy</button>
         </div>
     )
 }

@@ -1,13 +1,13 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
-import Converter from "../converter/converter";
+import "./layout.css";
 
 export const NavBar: React.FC = () => {
     return (
         <div className={"nav-bar"}>
-            <NavLink className={({isActive}) => "nav-link" + (isActive ? "__active" : "")} to={"/"}
+            <NavLink className={({isActive}) => "nav-link" + (isActive ? " active" : "")} to={"/"}
                      replace={true}>Converter</NavLink>
-            <NavLink className={({isActive}) => "nav-link" + (isActive ? "__active" : "")} to={"rates"}
+            <NavLink className={({isActive}) => "nav-link" + (isActive ? " active" : "")} to={"rates"}
                      replace={true}>Rates</NavLink>
         </div>
     )

@@ -1,0 +1,16 @@
+.converter {
+    margin-left: 3rem;
+    margin-right: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.converter-container{
+    height: 14rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

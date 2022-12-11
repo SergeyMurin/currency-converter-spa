@@ -166,14 +166,15 @@ export const RatesList: React.FC<Props> = ({currency}) => {
         <div className={"rates-list"}>
             {favoriteRenderList &&
                 <div className={"rates-list__favorite"}
-                     style={{height: "200px", overflowY: "auto"}}>{favoriteRenderList}</div>}
+                     >{favoriteRenderList}</div>}
             {renderList &&
                 <div className={"rates-list__favorite"}
-                     style={{height: "200px", overflowY: "auto"}}>{renderList}</div>}
+                    >{renderList}</div>}
         </div>
     );
 };
-
+/*{height: "200px", overflowY: "auto"}
+*/
 
 
 

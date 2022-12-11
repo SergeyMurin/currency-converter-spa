@@ -4,6 +4,8 @@ import {useAction} from "../../hooks/use-action";
 import {DateInput} from "./date-input";
 import {RatesList} from "./rates-list";
 import {CurrencySelect} from "../converter/currency-select/currency-select";
+import "./rates.css";
+import {Loader} from "../loader/loader";
 
 
 export const Rates: React.FC = () => {
@@ -36,9 +38,9 @@ export const Rates: React.FC = () => {
     return (
         <div className={"rates"}>
             <CurrencySelect isFrom={true} isTo={false} from={currency} onFrom={fromHandler} favorite={favorite}
-                            onFavoriteChange={onFavoriteChange}/>
+                            onFavoriteChange={onFavoriteChange} noName={true}/>
             <DateInput onDateChange={dateChangeHandler}/>
-            {loading_status ? <b>Loading...</b> : <RatesList currency={currency}/>}
+            {loading_status ? <Loader className={"full-page"}/> : <RatesList currency={currency}/>}
         </div>
     );
 };
