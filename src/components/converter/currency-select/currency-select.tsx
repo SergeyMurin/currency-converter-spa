@@ -19,7 +19,9 @@ type Props = {
 export const CurrencySelect: React.FC<Props> = ({isFrom, isTo, onFrom, onTo, from, to, reverse}: Props) => {
     const [options, setOptions] = useState<any>(null);
     const [selectedOption, setSelectedOption] = useState<any>(null);
+    const [favorite, setFavorite] = useState(false);
     const {symbols} = useTypedSelector(state => state.availableCurrencies);
+
 
     useEffect(() => {
         if (symbols) {
@@ -33,15 +35,15 @@ export const CurrencySelect: React.FC<Props> = ({isFrom, isTo, onFrom, onTo, fro
             disableDuplicatedOptions();
             const notDisabled = getNotDisabledOption();
             const defaultCurrency = localStorage.getItem("converter-default-currency");
-            if (defaultCurrency && isFrom) {
+            if (defaultCurrency) {
                 const opt: CurrencySelectOptionType = findOptionByCurrency(defaultCurrency);
-                setSelectedOption(opt);
+                setSelectedOption(isFrom ? opt : notDisabled);
                 if (onFrom) {
-                    onFrom(opt.value)
+                    isFrom ? onFrom(opt.value) : onFrom(notDisabled);
                 }
-            } else setSelectedOption(isFrom ? options[0] : notDisabled);
+            } else setSelectedOption(isFrom ? options[0] : options[1]);
             if (isTo && onTo) {
-                onTo(notDisabled.value);
+                onTo(options[1].value);
             }
         }
     }, [options])
@@ -67,6 +69,7 @@ export const CurrencySelect: React.FC<Props> = ({isFrom, isTo, onFrom, onTo, fro
                 onTo(selectedOption.value)
             }
         }
+        isFavorite();
     }, [selectedOption]);
 
     const disableDuplicatedOptions = () => {
@@ -88,8 +91,20 @@ export const CurrencySelect: React.FC<Props> = ({isFrom, isTo, onFrom, onTo, fro
         setSelectedOption(selectedOption);
     }
 
-    const defaultCurrencyHandler = () => {
+    const setFavoriteCurrency = () => {
         localStorage.setItem("converter-default-currency", selectedOption.value);
+        isFavorite();
+
+    }
+
+    const removeFavoriteCurrency = () => {
+        localStorage.removeItem("converter-default-currency");
+        isFavorite();
+    }
+
+    const isFavorite = () => {
+        const currency = localStorage.getItem("converter-default-currency");
+        setFavorite(currency === selectedOption?.value);
     }
 
     const findOptionByCurrency = (currency: string | undefined): CurrencySelectOptionType => {
@@ -109,7 +124,10 @@ export const CurrencySelect: React.FC<Props> = ({isFrom, isTo, onFrom, onTo, fro
                 noOptionsMessage={() => "No currencies"}
             />
             <span>{selectedOption ? selectedOption.name : ""}</span>
-            <button onClick={defaultCurrencyHandler}>To favorites</button>
+            {!favorite ?
+                <button onClick={setFavoriteCurrency}>To favorites</button>
+                : <button onClick={removeFavoriteCurrency}>Remove</button>
+            }
         </div>
     );
 };
