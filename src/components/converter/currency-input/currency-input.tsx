@@ -14,21 +14,11 @@ type Props = {
     to?: string;
     reverse: boolean;
     favorite: string;
-    onFavoriteChange?: (value: string) => void;
+    onFavoriteChange: (value: string) => void;
 }
 
-export const CurrencyInput: React.FC<Props> = ({
-                                                   isFrom,
-                                                   isTo,
-                                                   onAmount,
-                                                   onFrom,
-                                                   onTo,
-                                                   amount,
-                                                   from,
-                                                   to,
-                                                   reverse,
-                                                   favorite, onFavoriteChange
-                                               }: Props) => {
+export const CurrencyInput: React.FC<Props> = (
+    {isFrom, isTo, onAmount, onFrom, onTo, amount, from, to, reverse, favorite, onFavoriteChange}: Props) => {
     const [inputValue, setInputValue] = useState("");
 
     const inputValueHandler = (event: React.ChangeEvent) => {
@@ -64,7 +54,6 @@ export const CurrencyInput: React.FC<Props> = ({
                 value = targetValue;
                 setInputValue(value);
             }
-
         } else {
             value = targetValue.length ? targetValue + separator + "00" : targetValue;
             setInputValue(value);

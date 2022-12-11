@@ -3,7 +3,7 @@ import {useTypedSelector} from "../../hooks/use-typed-selector";
 
 type Props = {
     currency: string,
-}
+};
 
 type Rate = {
     currency_name: string;
@@ -11,12 +11,19 @@ type Rate = {
     rate_for_amount: string;
     isFavorite: boolean;
     timestamp: number;
-}
+};
+
+type FavoriteRate = {
+    from: string;
+    to: string;
+    timestamp: number;
+};
 
 export const RatesList: React.FC<Props> = ({currency}) => {
+    const {rates} = useTypedSelector(state => state.historicalRates);
+
     const [renderList, setRenderList] = useState<JSX.Element[] | null>(null);
     const [favoriteRenderList, setFavoriteRenderList] = useState<JSX.Element[] | null>(null);
-    const {rates} = useTypedSelector(state => state.historicalRates);
     const [tempRates, setTempRates] = useState(structuredClone(rates));
 
     useEffect(() => {
@@ -28,8 +35,7 @@ export const RatesList: React.FC<Props> = ({currency}) => {
 
     useEffect(() => {
         if (tempRates) {
-            makeList(tempRates, true);
-            makeList(tempRates, false);
+            refreshRenderList();
         }
     }, [tempRates])
 
@@ -40,8 +46,7 @@ export const RatesList: React.FC<Props> = ({currency}) => {
                 accumulator[key] = tempRates[key];
                 return accumulator;
             }, {});
-
-    }
+    };
 
     const tempRatesPreparation = () => {
         const favoriteRatesStr = localStorage.getItem("favorite-rates");
@@ -53,27 +58,27 @@ export const RatesList: React.FC<Props> = ({currency}) => {
                 Object.assign(newObj, {[key]: value});
             }
         }
+    };
+
+    const refreshRenderList = () => {
+        makeList(tempRates, true);
+        makeList(tempRates, false);
     }
 
     const removeFavoriteHandler = (key: string, value: Rate) => {
         removeFavoriteRateFromLocalStorage(currency, key, value);
-        makeList(tempRates, false);
-        makeList(tempRates, true);
-    }
+        refreshRenderList();
+    };
+
     const addFavoriteHandler = (key: string, value: Rate) => {
         addFavoriteRateToLocalStorage(currency, key, value);
-        makeList(tempRates, false);
-        makeList(tempRates, true);
-    }
+        refreshRenderList();
+    };
 
-    type FavoriteRate = {
-        from: string;
-        to: string;
-        timestamp: number;
-    }
     const addFavoriteRateToLocalStorage = (from: string, to: string, value: Rate) => {
         const favoriteRatesStr = localStorage.getItem("favorite-rates");
         const favoriteRates: FavoriteRate[] = favoriteRatesStr ? JSON.parse(favoriteRatesStr) : null;
+
         if (!favoriteRates) {
             localStorage.setItem("favorite-rates", JSON.stringify([{from: from, to: to, timestamp: Date.now()}]));
             value.isFavorite = true;
@@ -118,14 +123,7 @@ export const RatesList: React.FC<Props> = ({currency}) => {
     const makeList = (obj: {}, isFavoriteList: boolean) => {
         const list: JSX.Element[] = [];
         for (let [key, value] of Object.entries(obj)) {
-            if (currency === key) {
-                continue;
-            }
-            if ((value as Rate)?.isFavorite) {
-                if (!isFavoriteList) {
-                    continue;
-                }
-            } else if (!((value as Rate)?.isFavorite) && isFavoriteList) {
+            if (needToContinue(key, value, isFavoriteList)) {
                 continue;
             }
             const defaultAmount = "1";
@@ -148,6 +146,20 @@ export const RatesList: React.FC<Props> = ({currency}) => {
             list.push(listItem);
         }
         isFavoriteList ? setFavoriteRenderList(list) : setRenderList(list);
+    };
+
+    const needToContinue = (key: string, value: unknown, isFavoriteList: boolean) => {
+        if (currency === key) {
+            return true;
+        }
+        if ((value as Rate)?.isFavorite) {
+            if (!isFavoriteList) {
+                return true
+            }
+        } else if (!((value as Rate)?.isFavorite) && isFavoriteList) {
+            return true;
+        }
+        return false;
     }
 
     return (
@@ -159,8 +171,8 @@ export const RatesList: React.FC<Props> = ({currency}) => {
                 <div className={"rates-list__favorite"}
                      style={{height: "200px", overflowY: "auto"}}>{renderList}</div>}
         </div>
-    )
-}
+    );
+};
 
 
 

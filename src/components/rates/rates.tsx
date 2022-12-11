@@ -9,18 +9,11 @@ import {CurrencySelect} from "../converter/currency-select/currency-select";
 export const Rates: React.FC = () => {
     const {loading_status} = useTypedSelector(state => state.historicalRates);
     const {symbols} = useTypedSelector(state => state.availableCurrencies);
-
     const {getHistoricalRates} = useAction();
+
     const [currency, setCurrency] = useState("");
     const [date, setDate] = useState("");
     const [favorite, setFavorite] = useState("");
-    const onFavoriteChange = (value: string) => {
-        setFavorite(value);
-    }
-
-    const fromHandler = (value: string | null | undefined) => {
-        setCurrency(value ? value : "");
-    }
 
     useEffect(() => {
         if (symbols && date && currency) {
@@ -28,10 +21,17 @@ export const Rates: React.FC = () => {
         }
     }, [currency, date, symbols]);
 
+    const fromHandler = (value: string | null | undefined) => {
+        setCurrency(value ? value : "");
+    };
+
     const dateChangeHandler = (newDate: string) => {
         setDate(newDate);
-    }
+    };
 
+    const onFavoriteChange = (value: string) => {
+        setFavorite(value);
+    };
 
     return (
         <div className={"rates"}>
@@ -40,13 +40,5 @@ export const Rates: React.FC = () => {
             <DateInput onDateChange={dateChangeHandler}/>
             {loading_status ? <b>Loading...</b> : <RatesList currency={currency}/>}
         </div>
-    )
+    );
 };
-
-const toCurrencyString = (symbols: {}): string => {
-    let currencyString = "";
-    for (let [key, value] of Object.entries(symbols)) {
-        currencyString += key;
-    }
-    return currencyString;
-}
