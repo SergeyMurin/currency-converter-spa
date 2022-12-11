@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {useTypedSelector} from "../../hooks/use-typed-selector";
+import addIcon from "../../assets/icons/svg/add-favorite.svg";
+import removeIcon from "../../assets/icons/svg/remove-favorite.svg";
+import topArrow from "../../assets/icons/svg/top-arrow.svg";
 
 type Props = {
     currency: string,
@@ -128,20 +131,30 @@ export const RatesList: React.FC<Props> = ({currency}) => {
             }
             const defaultAmount = "1";
             const listItem =
-                <div className={`rate${(value as Rate)?.isFavorite ? "__favorite" : ""}`} style={{height: "40px"}}
+                <div className={`rate${(value as Rate)?.isFavorite ? " favorite" : ""}`} style={{height: "40px"}}
                      key={key}>
-                    {(value as Rate)?.isFavorite ?
-                        <button
-                            onClick={() => removeFavoriteHandler(key, (value as Rate))}>remove
-                        </button> :
-                        <button onClick={() => addFavoriteHandler(key, (value as Rate))}>to favs
-                        </button>
-                    }
-                    <span>{defaultAmount}</span>
-                    <span>{currency}</span>
-                    =
-                    <span>{(value as Rate).rate_for_amount}</span>
-                    <span>{key}</span>
+                    <div className={"rate-icon"}>
+                        {(value as Rate)?.isFavorite ?
+                            <div className={"icon__container"}
+                                 onClick={() => removeFavoriteHandler(key, (value as Rate))}>
+                                <img id={"remove-favorite-icon"} className={"icon"} src={removeIcon.toString()}/>
+                            </div> :
+                            <div className={"icon__container"} onClick={() => addFavoriteHandler(key, (value as Rate))}>
+                                <img id={"add-favorite-icon"} className={"icon"} src={addIcon.toString()}/>
+                            </div>
+                        }
+                    </div>
+                    <div className={"rate-left"}>
+                        <span className={"rate-left-amount"}>{defaultAmount}</span>
+                        <span className={"rate-left-currency"}>{currency}</span>
+                    </div>
+                    <div className={"rate-middle"}>
+                        =
+                    </div>
+                    <div className={"rate-right"}>
+                        <span className={"rate-right-currency"}>{key}</span>
+                        <span className={"rate-right-amount"}>{(value as Rate).rate_for_amount}</span>
+                    </div>
                 </div>;
             list.push(listItem);
         }
@@ -163,13 +176,14 @@ export const RatesList: React.FC<Props> = ({currency}) => {
     }
 
     return (
-        <div className={"rates-list"}>
+        <div className={"rates-container"}>
             {favoriteRenderList &&
-                <div className={"rates-list__favorite"}
-                     >{favoriteRenderList}</div>}
+                <div className={"rates-list-favorite"}>{favoriteRenderList}</div>}
             {renderList &&
-                <div className={"rates-list__favorite"}
-                    >{renderList}</div>}
+                <div className={"rates-list"}>{renderList}</div>}
+            <a id={"for-top"} href={"#top"}>
+                <img src={topArrow.toString()}/>
+            </a>
         </div>
     );
 };

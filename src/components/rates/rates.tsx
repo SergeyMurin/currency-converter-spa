@@ -37,9 +37,11 @@ export const Rates: React.FC = () => {
 
     return (
         <div className={"rates"}>
-            <CurrencySelect isFrom={true} isTo={false} from={currency} onFrom={fromHandler} favorite={favorite}
-                            onFavoriteChange={onFavoriteChange} noName={true}/>
-            <DateInput onDateChange={dateChangeHandler}/>
+            <div className={"rates-header"}>
+                <DateInput onDateChange={dateChangeHandler}/>
+                <CurrencySelect isFrom={true} isTo={false} from={currency} onFrom={fromHandler} favorite={favorite}
+                                onFavoriteChange={onFavoriteChange} noName={true}/>
+            </div>
             {loading_status ? <Loader className={"full-page"}/> : <RatesList currency={currency}/>}
         </div>
     );
