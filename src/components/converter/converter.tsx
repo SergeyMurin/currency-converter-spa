@@ -88,9 +88,9 @@ const Converter: React.FC = () => {
                                        to={to} reverse={reverse} favorite={favorite}
                                        onFavoriteChange={onFavoriteChange}/>
                         {loading_status ? <Loader/> :
-                            <button className={"icon__container"} onClick={reverseHandler} disabled={loading_status}>
+                            <div className={"icon__container"} onClick={reverseHandler} >
                                 <img id={"swap-icon"} className={"icon"} src={swapIcon.toString()}/>
-                            </button>}
+                            </div>}
                         <CurrencyInput isFrom={false} isTo={true} onTo={toHandler}
                                        forAmount={amount}
                                        amount={rate && amount ? rate.rate_for_amount : ""}
