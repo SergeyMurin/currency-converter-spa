@@ -4,23 +4,18 @@ import {useAction} from "../../hooks/use-action";
 import {CurrencyInput} from "./currency-input/currency-input";
 import {IRate} from "../../types/currency-converter-types";
 
-export type ConverterParams = {
-    from: string,
-    to: string,
-    amount: string,
-}
-
 const Converter: React.FC = () => {
     const {loading_status} = useTypedSelector(state => state.converter);
+    const {rates} = useTypedSelector(state => state.converter);
+    const {makeConversion} = useAction();
+
     const [amount, setAmount] = useState<string>("");
     const [to, setTo] = useState<string>("");
     const [from, setFrom] = useState<string>("");
     const [convertIsDisable, setConvertIsDisable] = useState<boolean>(true);
-    const {makeConversion} = useAction();
-    const {rates} = useTypedSelector(state => state.converter);
     const [rate, setRate] = useState<IRate>();
     const [reverse, setReverse] = useState(false);
-
+    const [favorite, setFavorite] = useState("");
 
     useEffect(() => {
         if (!convertIsDisable) {
@@ -37,15 +32,19 @@ const Converter: React.FC = () => {
     const amountHandler = (value: string) => {
         setAmount(value);
         !!value ? setConvertIsDisable(false) : setConvertIsDisable(true);
-    }
+    };
 
     const fromHandler = (value: string | null | undefined) => {
         setFrom(value ? value : "");
-    }
+    };
 
     const toHandler = (value: string | null | undefined) => {
         setTo(value ? value : "");
-    }
+    };
+
+    const onFavoriteChange = (value: string) => {
+        setFavorite(value);
+    };
 
     const setRateFromRates = (rates: any) => {
         const rate: IRate = {
@@ -59,23 +58,25 @@ const Converter: React.FC = () => {
             rate.rate_for_amount = (value as IRate).rate_for_amount;
         }
         setRate(rate);
-    }
+    };
 
-    const buttonHandler = () => {
+    const reverseHandler = () => {
         setFrom(to);
         setTo(from);
         setReverse(true);
-    }
-
+    };
 
     return (
         <div className={"converter"}>
             converter {loading_status ? <b>Loading...</b> : <></>}
             <CurrencyInput isFrom={true} isTo={false} onAmount={amountHandler} onFrom={fromHandler} from={from}
-                           to={to} reverse={reverse}/>
-            <button onClick={buttonHandler}>reverse</button>
-            <CurrencyInput isFrom={false} isTo={true} onTo={toHandler} amount={rate ? rate.rate_for_amount : ""}
-                           from={from} to={to} reverse={reverse}/>
+                           to={to} reverse={reverse} favorite={favorite} onFavoriteChange={onFavoriteChange}/>
+            <button onClick={reverseHandler} disabled={loading_status}>reverse</button>
+            <CurrencyInput isFrom={false} isTo={true} onTo={toHandler}
+                           amount={rate && amount ? rate.rate_for_amount : ""}
+                           from={from} to={to} reverse={reverse} favorite={favorite}
+                           onFavoriteChange={onFavoriteChange}/>
+
         </div>
     );
 };

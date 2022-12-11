@@ -13,9 +13,12 @@ type Props = {
     from?: string;
     to?: string;
     reverse: boolean;
+    favorite: string;
+    onFavoriteChange: (value: string) => void;
 }
 
-export const CurrencyInput: React.FC<Props> = ({isFrom, isTo, onAmount, onFrom, onTo, amount, from, to,reverse}: Props) => {
+export const CurrencyInput: React.FC<Props> = (
+    {isFrom, isTo, onAmount, onFrom, onTo, amount, from, to, reverse, favorite, onFavoriteChange}: Props) => {
     const [inputValue, setInputValue] = useState("");
 
     const inputValueHandler = (event: React.ChangeEvent) => {
@@ -51,7 +54,6 @@ export const CurrencyInput: React.FC<Props> = ({isFrom, isTo, onAmount, onFrom, 
                 value = targetValue;
                 setInputValue(value);
             }
-
         } else {
             value = targetValue.length ? targetValue + separator + "00" : targetValue;
             setInputValue(value);
@@ -59,6 +61,10 @@ export const CurrencyInput: React.FC<Props> = ({isFrom, isTo, onAmount, onFrom, 
         if (onAmount) {
             onAmount(value !== "0.00" ? value : "");
         }
+    }
+
+    const copyToClipBoard = async () => {
+        await navigator.clipboard.writeText(amount ? amount : "");
     }
 
     return (
@@ -71,6 +77,8 @@ export const CurrencyInput: React.FC<Props> = ({isFrom, isTo, onAmount, onFrom, 
                    onKeyDown={(event) => keyDownHandler(event)}
             />
             <CurrencySelect
+                onFavoriteChange={onFavoriteChange}
+                favorite={favorite}
                 reverse={reverse}
                 isFrom={isFrom} isTo={isTo}
                 onTo={(value) => onTo ? onTo(value) : null}
@@ -78,6 +86,7 @@ export const CurrencyInput: React.FC<Props> = ({isFrom, isTo, onAmount, onFrom, 
                 from={from}
                 to={to}
             />
+            <button onClick={copyToClipBoard}>copy</button>
         </div>
     )
 }

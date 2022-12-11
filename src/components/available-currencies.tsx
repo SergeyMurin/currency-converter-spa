@@ -8,7 +8,6 @@ const AvailableCurrencies: React.FC = () => {
 
     return (
         <div className={"supported-symbols"}>
-            supported symbols {loading_status ? <b>Loading...</b> : <></>}
         </div>
     );
 };

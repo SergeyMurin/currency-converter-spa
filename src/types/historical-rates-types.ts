@@ -13,6 +13,7 @@ export enum HistoricalRatesActionTypes {
     GET_HISTORICAL_RATES = "GET_HISTORICAL_RATES",
     GET_HISTORICAL_RATES_SUCCESS = "GET_HISTORICAL_RATES_SUCCESS",
     GET_HISTORICAL_RATES_ERROR = "GET_HISTORICAL_RATES_ERROR",
+    SET_RATES = "SET_RATES",
 }
 
 
@@ -34,7 +35,13 @@ interface IGetHistoricalRatesErrorAction {
     payload: string;
 }
 
+interface ISetRates {
+    type: HistoricalRatesActionTypes.SET_RATES;
+    rates: {};
+}
+
 export type HistoricalRatesActionType =
     IGetHistoricalRatesAction |
     IGetHistoricalRatesSuccessAction |
-    IGetHistoricalRatesErrorAction;
+    IGetHistoricalRatesErrorAction |
+    ISetRates;

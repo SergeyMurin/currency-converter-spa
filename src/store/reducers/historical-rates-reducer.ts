@@ -36,6 +36,9 @@ export const historicalRatesReducer = (state = initialState, action: HistoricalR
         case HistoricalRatesActionTypes.GET_HISTORICAL_RATES_ERROR: {
             return {loading_status: false, error: action.payload, rates: {}};
         }
+        case HistoricalRatesActionTypes.SET_RATES: {
+            return {rates: action.rates}
+        }
         default: {
             return state;
         }
