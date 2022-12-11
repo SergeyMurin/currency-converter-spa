@@ -37,10 +37,10 @@ export const DateInput: React.FC<Props> = ({onDateChange}) => {
 
     return (
         <div className={"date__input"}>
-            <input type={"date"} value={value} onChange={(event) => {
+            <input className={"date-input"} type={"date"} value={value} onChange={(event) => {
                 valueHandler(event)
             }} onBlur={blurHandler} onKeyDown={keyDownHandler}/>
-            <button onClick={todayHandler}>today</button>
+            <button onClick={todayHandler}>Today</button>
         </div>
     );
 };

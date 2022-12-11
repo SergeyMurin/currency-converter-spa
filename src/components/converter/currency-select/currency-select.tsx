@@ -3,7 +3,9 @@ import "./currency-select.css";
 import Select from 'react-select';
 import {CurrencySelectOptionType} from "../../../types/currency-select-option-types";
 import {useTypedSelector} from "../../../hooks/use-typed-selector";
-import {CurrencyWithFlagTypes, ICurrencyWithFlag} from "../../../types/currency-with-flag-types";
+import {CurrencyWithFlagTypes} from "../../../types/currency-with-flag-types";
+import favoriteIcon from "../../../assets/icons/svg/favorite.svg";
+import favoriteFillIcon from "../../../assets/icons/svg/favorite-fill.svg";
 
 
 type Props = {
@@ -16,10 +18,11 @@ type Props = {
     reverse?: boolean;
     favorite: string;
     onFavoriteChange?: (value: string) => void;
+    noName?:boolean
 }
 
 export const CurrencySelect: React.FC<Props> = (
-    {isFrom, isTo, onFrom, onTo, from, to, reverse, favorite, onFavoriteChange}: Props) => {
+    {isFrom, isTo, onFrom, onTo, from, to, reverse, favorite, onFavoriteChange, noName}: Props) => {
     const [options, setOptions] = useState<any>(null);
     const [selectedOption, setSelectedOption] = useState<any>(null);
     const {symbols} = useTypedSelector(state => state.availableCurrencies);
@@ -120,6 +123,7 @@ export const CurrencySelect: React.FC<Props> = (
 
     return (
         <div className="currency__select">
+
             <Select
                 value={selectedOption}
                 className={"currency-select"}
@@ -128,17 +132,21 @@ export const CurrencySelect: React.FC<Props> = (
                 options={options}
                 noOptionsMessage={() => "No currencies"}
             />
-            <span>{selectedOption ? selectedOption.name : ""}</span>
             {favorite === selectedOption?.value ?
-                <button onClick={removeFavoriteCurrency}>Remove</button> :
-                <button onClick={setFavoriteCurrency}>To favorites</button>
+                <div className={"icon__container"} onClick={removeFavoriteCurrency}>
+                    <img id={"favorite-fill-icon"} className={"icon"} src={favoriteFillIcon.toString()}/>
+                </div> :
+                <div className={"icon__container"} onClick={setFavoriteCurrency}>
+                    <img id={"favorite-icon"} className={"icon"} src={favoriteIcon.toString()}/>
+                </div>
             }
+            {!noName && <span className={"currency-name no-select"}>{selectedOption ? selectedOption.name : ""}</span>}
         </div>
     );
 };
 
 const generateOptions = (symbols: {}) => {
-    const flags: [] = require("../../../assets/images/currencies-with-flags.json");
+    const flags: [] = require("../../../assets/json/currency/currencies-with-flags.json");
     const options: CurrencySelectOptionType[] | any = [];
 
     for (let [key, value] of Object.entries(symbols)) {

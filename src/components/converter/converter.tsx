@@ -3,9 +3,17 @@ import {useTypedSelector} from "../../hooks/use-typed-selector";
 import {useAction} from "../../hooks/use-action";
 import {CurrencyInput} from "./currency-input/currency-input";
 import {IRate} from "../../types/currency-converter-types";
+import {Loader} from "../loader/loader";
+import "./converter.css";
+import swapIcon from "../../../src/assets/icons/svg/swap.svg";
 
 const Converter: React.FC = () => {
     const {loading_status} = useTypedSelector(state => state.converter);
+    const available: boolean | null = useTypedSelector(state => state?.availableCurrencies);
+    let loading = false;
+    if ("loading_status" in available) {
+        loading = available["loading_status"];
+    }
     const {rates} = useTypedSelector(state => state.converter);
     const {makeConversion} = useAction();
 
@@ -67,17 +75,31 @@ const Converter: React.FC = () => {
     };
 
     return (
-        <div className={"converter"}>
-            converter {loading_status ? <b>Loading...</b> : <></>}
-            <CurrencyInput isFrom={true} isTo={false} onAmount={amountHandler} onFrom={fromHandler} from={from}
-                           to={to} reverse={reverse} favorite={favorite} onFavoriteChange={onFavoriteChange}/>
-            <button onClick={reverseHandler} disabled={loading_status}>reverse</button>
-            <CurrencyInput isFrom={false} isTo={true} onTo={toHandler}
-                           amount={rate && amount ? rate.rate_for_amount : ""}
-                           from={from} to={to} reverse={reverse} favorite={favorite}
-                           onFavoriteChange={onFavoriteChange}/>
-
-        </div>
+        <>
+            {loading ?
+                <Loader className={"full-page"}/>
+                :
+                <div className={"converter-container"}>
+                    <div className={"converter"}>
+                        {/*<div>&#36;</div>
+            <Loader/>*/}
+                        <CurrencyInput isFrom={true} isTo={false} onAmount={amountHandler} onFrom={fromHandler}
+                                       from={from}
+                                       to={to} reverse={reverse} favorite={favorite}
+                                       onFavoriteChange={onFavoriteChange}/>
+                        {loading_status ? <Loader/> :
+                            <button className={"icon__container"} onClick={reverseHandler} disabled={loading_status}>
+                                <img id={"swap-icon"} className={"icon"} src={swapIcon.toString()}/>
+                            </button>}
+                        <CurrencyInput isFrom={false} isTo={true} onTo={toHandler}
+                                       forAmount={amount}
+                                       amount={rate && amount ? rate.rate_for_amount : ""}
+                                       from={from} to={to} reverse={reverse} favorite={favorite}
+                                       onFavoriteChange={onFavoriteChange}/>
+                    </div>
+                </div>
+            }
+        </>
     );
 };
 
