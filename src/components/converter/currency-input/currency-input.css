@@ -40,6 +40,7 @@
 @media only screen and (max-width: 600px) {
     .currency__input {
         display: flex;
+        justify-content: center;
         flex-wrap: wrap;
         margin-bottom: 4rem;
     }
