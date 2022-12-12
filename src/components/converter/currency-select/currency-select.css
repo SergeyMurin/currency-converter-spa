@@ -39,6 +39,8 @@
 
     .currency__select {
         width: 100%;
+        display: flex;
+        justify-content: center;
     }
 
     .currency-name {

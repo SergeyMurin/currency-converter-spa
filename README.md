@@ -1,3 +1,24 @@
+# Currency converter
+
+It's a single-page application that consist of 2 parts:
+- Currency converter
+![](https://i.ibb.co/0yhm7xP/image.png)
+- Currency rate list
+![](https://i.ibb.co/cyYRGM3/image.png)
+
+The user can choose his favorite currency, which will allow him to quickly get the desired result.
+
+![](https://i.ibb.co/qMM3CsD/image.png)
+
+In the currency list the user can select a date and see the rate of one currency in relation to the rest. By default, your favorite currency is used.
+
+The user can also add the course to favorites so that it is constantly in sight.
+![](https://i.ibb.co/mNQtTcP/image.png)
+
+### Adaptive design
+![](https://i.ibb.co/pdDh0Vs/2022-12-12-09-32-02.png)
+![](https://i.ibb.co/XZfYf44/2022-12-12-09-30-08.png)
+---
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
