@@ -1,6 +1,6 @@
 .converter {
-    margin-left: 3rem;
-    margin-right: 3rem;
+    margin-left: 2.5rem;
+    margin-right: 2.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,3 +14,13 @@
     align-items: center;
 }
 
+@media only screen and (max-width: 600px) {
+    .converter{
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+    .converter-container{
+        display: unset;
+        height: 100vh;
+    }
+}

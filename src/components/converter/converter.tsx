@@ -81,16 +81,16 @@ const Converter: React.FC = () => {
                 :
                 <div className={"converter-container"}>
                     <div className={"converter"}>
-                        {/*<div>&#36;</div>
-            <Loader/>*/}
+                        {/* <div>&#36;</div>*/}
+
                         <CurrencyInput isFrom={true} isTo={false} onAmount={amountHandler} onFrom={fromHandler}
                                        from={from}
                                        to={to} reverse={reverse} favorite={favorite}
                                        onFavoriteChange={onFavoriteChange}/>
-                        {loading_status ? <Loader/> :
-                            <button className={"icon__container"} onClick={reverseHandler} disabled={loading_status}>
-                                <img id={"swap-icon"} className={"icon"} src={swapIcon.toString()}/>
-                            </button>}
+                        <div className={"icon__container"} onClick={reverseHandler}>
+                            <img id={"swap-icon"} className={"icon"} src={swapIcon.toString()}
+                                 style={{opacity: `${loading_status ? "0" : "1"}`}}/>
+                        </div>
                         <CurrencyInput isFrom={false} isTo={true} onTo={toHandler}
                                        forAmount={amount}
                                        amount={rate && amount ? rate.rate_for_amount : ""}

@@ -104,19 +104,28 @@ button:hover {
 }
 
 .rate-right {
-    justify-content: left;
+    justify-content: right;
+
 }
 
 .rate-left {
-    justify-content: right;
+    justify-content: left;
+
 }
 
 .rate-middle {
     width: 20%;
 }
 
+
 .rate-left-amount, .rate-right-amount {
+    width: 100%;
     font-weight: bold;
+}
+
+.rate-left-amount, .rate-right-amount {
+    display: flex;
+    justify-content: center;
 }
 
 .rate-left-currency {
@@ -133,7 +142,7 @@ button:hover {
     border-radius: 1.1rem;
     height: 4rem;
     position: fixed;
-    right: 5%;
+    right: 3%;
     bottom: 5%;
     display: flex;
     justify-content: center;
@@ -141,12 +150,50 @@ button:hover {
     opacity: 0.4;
 }
 
-#for-top:hover{
+#for-top:hover {
     transition: opacity 0.2s ease-in-out;
     opacity: 1;
 }
 
-#for-top img{
+#for-top img {
     filter: var(--filter-icon);
+}
 
+@media only screen and (max-width: 600px) {
+
+    .date-input {
+        width: 6.7rem;
+        margin: 0.4rem;
+    }
+
+    .date__input {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    button {
+        padding-left: 0.7rem;
+        padding-right: 0.7rem;
+        font-weight: normal;
+    }
+
+    .rates-header {
+        justify-content: space-evenly;
+    }
+
+    .rates-header .currency__select .currency-select {
+        min-width: 7rem !important;
+        width: 7rem !important;
+        margin: 0;
+    }
+
+    .rates-header .currency__select {
+        display: flex;
+        justify-content: end;
+    }
+
+    #for-top {
+        bottom: 2%;
+    }
 }

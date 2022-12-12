@@ -36,3 +36,15 @@
 .currency-input::placeholder {
     color: var(--color-input-placeholder);
 }
+
+@media only screen and (max-width: 600px) {
+    .currency__input {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 4rem;
+    }
+
+    .currency-input {
+        width: 19.5rem;
+    }
+}
