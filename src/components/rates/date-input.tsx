@@ -22,12 +22,12 @@ export const DateInput: React.FC<Props> = ({onDateChange}) => {
     };
 
     const blurHandler = () => {
-        setValue(getFormattedTodayDate);
+        setValue(value);
     };
 
     const keyDownHandler = (event: any) => {
         if (event.key === "Enter") {
-            setValue(getFormattedTodayDate);
+            setValue(value);
         }
     };
 
