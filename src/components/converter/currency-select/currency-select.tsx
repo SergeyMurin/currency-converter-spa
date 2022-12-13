@@ -130,6 +130,7 @@ export const CurrencySelect: React.FC<Props> = (
                 defaultValue={selectedOption}
                 onChange={handleChange}
                 options={options}
+                placeholder={""}
                 noOptionsMessage={() => "No currencies"}
             />
             {favorite === selectedOption?.value ?

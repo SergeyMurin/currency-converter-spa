@@ -1,7 +1,5 @@
 import React, {useEffect} from 'react';
 import "./app.css";
-import Converter from "./components/converter/converter";
-import HistoricalRates from "./components/historical-rates";
 import AvailableCurrencies from "./components/available-currencies";
 import {useAction} from "./hooks/use-action";
 import {Route, Routes} from "react-router-dom";
@@ -9,20 +7,25 @@ import {ConverterPage} from "./pages/converter-page";
 import {RatesPage} from "./pages/rates-page";
 import {NotFoundPage} from "./pages/not-found-page";
 import {Layout} from "./components/layout/layout";
+import {useTypedSelector} from "./hooks/use-typed-selector";
 
 
 const App = () => {
     const {getAvailableCurrencies} = useAction();
-    const initRequests = [getAvailableCurrencies];
+    const {loading_status}=useTypedSelector(state => state.availableCurrencies)
 
     useEffect(() => {
-        setIntervalForRequest(initRequests, 1000);
+        const requestInterval: number = 0;
+        let interval = setInterval(() => {
+            getAvailableCurrencies();
+            clearInterval(interval);
+        }, requestInterval);
     }, []);
     return (
         <>
             <Routes>
                 <Route path={"/"} element={<Layout/>}>
-                    <Route index element={<ConverterPage/>}/>
+                    <Route index element={<ConverterPage loading={loading_status}/>}/>
                     <Route path={"rates"} element={<RatesPage/>}/>
                     <Route path={"*"} element={<NotFoundPage/>}/>
                 </Route>
@@ -32,15 +35,3 @@ const App = () => {
     );
 }
 export default App;
-
-
-export const setIntervalForRequest = (requests: { (): void }[], interval: number) => {
-    let requestIndex = 0;
-    const timer = setInterval(async () => {
-        await requests[requestIndex]();
-        if (requestIndex === requests.length - 1) {
-            clearInterval(timer);
-        }
-        requestIndex++;
-    }, interval)
-}

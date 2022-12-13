@@ -19,7 +19,11 @@ export const Rates: React.FC = () => {
 
     useEffect(() => {
         if (symbols && date && currency) {
-            getHistoricalRates({from: currency, to: "", amount: "1", date: date});
+            const requestInterval: number = 1000;
+            let interval = setInterval(() => {
+                getHistoricalRates({from: currency, to: "", amount: "1", date: date});
+                clearInterval(interval);
+            }, requestInterval);
         }
     }, [currency, date, symbols]);
 

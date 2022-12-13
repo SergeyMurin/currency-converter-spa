@@ -7,13 +7,13 @@ import {Loader} from "../loader/loader";
 import "./converter.css";
 import swapIcon from "../../../src/assets/icons/svg/swap.svg";
 
-const Converter: React.FC = () => {
+type Props = {
+    loading: boolean;
+}
+
+const Converter: React.FC<Props> = ({loading}) => {
     const {loading_status} = useTypedSelector(state => state.converter);
-    const available: boolean | null = useTypedSelector(state => state?.availableCurrencies);
-    let loading = false;
-    if ("loading_status" in available) {
-        loading = available["loading_status"];
-    }
+
     const {rates} = useTypedSelector(state => state.converter);
     const {makeConversion} = useAction();
 
@@ -27,7 +27,11 @@ const Converter: React.FC = () => {
 
     useEffect(() => {
         if (!convertIsDisable) {
-            makeConversion({amount: amount, from: from, to: to});
+            let requestInterval = 0;
+            const interval = setInterval(() => {
+                makeConversion({amount: amount, from: from, to: to});
+                clearInterval(interval);
+            }, requestInterval);
         }
     }, [to, from, amount]);
 
