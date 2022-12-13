@@ -11,6 +11,7 @@ type Props = {
     loading: boolean;
 }
 
+
 const Converter: React.FC<Props> = ({loading}) => {
     const {loading_status} = useTypedSelector(state => state.converter);
 
@@ -92,7 +93,7 @@ const Converter: React.FC<Props> = ({loading}) => {
                                        to={to} reverse={reverse} favorite={favorite}
                                        onFavoriteChange={onFavoriteChange}/>
                         <div className={"icon__container"} onClick={reverseHandler}>
-                            <img id={"swap-icon"} className={"icon"} src={swapIcon.toString()}
+                            <img alt={""} id={"swap-icon"} className={"icon"} src={swapIcon.toString()}
                                  style={{opacity: `${loading_status ? "0" : "1"}`}}/>
                         </div>
                         <CurrencyInput isFrom={false} isTo={true} onTo={toHandler}

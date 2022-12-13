@@ -3,6 +3,7 @@ import {useTypedSelector} from "../../hooks/use-typed-selector";
 import addIcon from "../../assets/icons/svg/add-favorite.svg";
 import removeIcon from "../../assets/icons/svg/remove-favorite.svg";
 import topArrow from "../../assets/icons/svg/top-arrow.svg";
+import {LocalStoragePath} from "../../App";
 
 type Props = {
     currency: string,
@@ -52,7 +53,7 @@ export const RatesList: React.FC<Props> = ({currency}) => {
     };
 
     const tempRatesPreparation = () => {
-        const favoriteRatesStr = localStorage.getItem("favorite-rates");
+        const favoriteRatesStr = localStorage.getItem(LocalStoragePath.FAVORITE_RATES);
         const favoriteRates: FavoriteRate[] = favoriteRatesStr ? JSON.parse(favoriteRatesStr) : null;
         const newObj = {};
         for (let [key, value] of Object.entries(tempRates)) {
@@ -79,32 +80,36 @@ export const RatesList: React.FC<Props> = ({currency}) => {
     };
 
     const addFavoriteRateToLocalStorage = (from: string, to: string, value: Rate) => {
-        const favoriteRatesStr = localStorage.getItem("favorite-rates");
+        const favoriteRatesStr = localStorage.getItem(LocalStoragePath.FAVORITE_RATES);
         const favoriteRates: FavoriteRate[] = favoriteRatesStr ? JSON.parse(favoriteRatesStr) : null;
 
         if (!favoriteRates) {
-            localStorage.setItem("favorite-rates", JSON.stringify([{from: from, to: to, timestamp: Date.now()}]));
+            localStorage.setItem(LocalStoragePath.FAVORITE_RATES, JSON.stringify([{
+                from: from,
+                to: to,
+                timestamp: Date.now()
+            }]));
             value.isFavorite = true;
         } else {
             if (findFavoriteRate(favoriteRates, from, to)) {
                 return;
             }
             favoriteRates.push({from: from, to: to, timestamp: Date.now()});
-            localStorage.setItem("favorite-rates", JSON.stringify(favoriteRates));
+            localStorage.setItem(LocalStoragePath.FAVORITE_RATES, JSON.stringify(favoriteRates));
             value.isFavorite = true;
             setTempRates(tempRates);
         }
     }
 
     const removeFavoriteRateFromLocalStorage = (from: string, to: string, value: Rate) => {
-        const favoriteRatesStr = localStorage.getItem("favorite-rates");
+        const favoriteRatesStr = localStorage.getItem(LocalStoragePath.FAVORITE_RATES);
         const favoriteRates: FavoriteRate[] = favoriteRatesStr ? JSON.parse(favoriteRatesStr) : null;
         const favoriteRate = findFavoriteRate(favoriteRates, from, to);
         if (favoriteRate) {
             const idx = favoriteRates.indexOf(favoriteRate);
             if (idx > -1) {
                 favoriteRates.splice(idx, 1);
-                localStorage.setItem("favorite-rates", JSON.stringify(favoriteRates));
+                localStorage.setItem(LocalStoragePath.FAVORITE_RATES, JSON.stringify(favoriteRates));
                 value.isFavorite = false;
                 setTempRates(tempRates);
             }
@@ -137,10 +142,11 @@ export const RatesList: React.FC<Props> = ({currency}) => {
                         {(value as Rate)?.isFavorite ?
                             <div className={"icon__container"}
                                  onClick={() => removeFavoriteHandler(key, (value as Rate))}>
-                                <img id={"remove-favorite-icon"} className={"icon"} src={removeIcon.toString()}/>
+                                <img alt={""} id={"remove-favorite-icon"} className={"icon"}
+                                     src={removeIcon.toString()}/>
                             </div> :
                             <div className={"icon__container"} onClick={() => addFavoriteHandler(key, (value as Rate))}>
-                                <img id={"add-favorite-icon"} className={"icon"} src={addIcon.toString()}/>
+                                <img alt={""} id={"add-favorite-icon"} className={"icon"} src={addIcon.toString()}/>
                             </div>
                         }
                     </div>
@@ -182,13 +188,12 @@ export const RatesList: React.FC<Props> = ({currency}) => {
             {renderList &&
                 <div className={"rates-list"}>{renderList}</div>}
             <a id={"for-top"} href={"#top"}>
-                <img src={topArrow.toString()}/>
+                <img alt={""} src={topArrow.toString()}/>
             </a>
         </div>
     );
 };
-/*{height: "200px", overflowY: "auto"}
-*/
+
 
 
 

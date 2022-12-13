@@ -6,6 +6,8 @@ import {useTypedSelector} from "../../../hooks/use-typed-selector";
 import {CurrencyWithFlagTypes} from "../../../types/currency-with-flag-types";
 import favoriteIcon from "../../../assets/icons/svg/favorite.svg";
 import favoriteFillIcon from "../../../assets/icons/svg/favorite-fill.svg";
+import {LocalStoragePath} from "../../../App";
+import flagsJSON from "../../../assets/json/currency/currencies-with-flags.json";
 
 
 type Props = {
@@ -18,7 +20,15 @@ type Props = {
     reverse?: boolean;
     favorite: string;
     onFavoriteChange?: (value: string) => void;
-    noName?:boolean
+    noName?: boolean
+}
+
+type FlagsJSONType = {
+    code?: string;
+    name?: string;
+    country?: string;
+    countryCode?: string;
+    flag?: string;
 }
 
 export const CurrencySelect: React.FC<Props> = (
@@ -28,7 +38,7 @@ export const CurrencySelect: React.FC<Props> = (
     const {symbols} = useTypedSelector(state => state.availableCurrencies);
 
     useEffect(() => {
-        const favorite = localStorage.getItem("converter-default-currency");
+        const favorite = localStorage.getItem(LocalStoragePath.CONVERTER_DEFAULT_CURRENCY);
         if (onFavoriteChange) {
             onFavoriteChange(favorite ? favorite : "");
         }
@@ -45,7 +55,7 @@ export const CurrencySelect: React.FC<Props> = (
         if (options?.length) {
             disableDuplicatedOptions();
             const notDisabledOption = getNotDisabledOption();
-            const defaultCurrency = localStorage.getItem("converter-default-currency");
+            const defaultCurrency = localStorage.getItem(LocalStoragePath.CONVERTER_DEFAULT_CURRENCY);
             if (defaultCurrency) {
                 const option: CurrencySelectOptionType = findOptionByCurrency(defaultCurrency);
                 setSelectedOption(isFrom ? option : notDisabledOption);
@@ -102,14 +112,14 @@ export const CurrencySelect: React.FC<Props> = (
     };
 
     const setFavoriteCurrency = () => {
-        localStorage.setItem("converter-default-currency", selectedOption.value);
+        localStorage.setItem(LocalStoragePath.CONVERTER_DEFAULT_CURRENCY, selectedOption.value);
         if (onFavoriteChange) {
             onFavoriteChange(selectedOption.value);
         }
     };
 
     const removeFavoriteCurrency = () => {
-        localStorage.removeItem("converter-default-currency");
+        localStorage.removeItem(LocalStoragePath.CONVERTER_DEFAULT_CURRENCY);
         if (onFavoriteChange) {
             onFavoriteChange("");
         }
@@ -135,10 +145,10 @@ export const CurrencySelect: React.FC<Props> = (
             />
             {favorite === selectedOption?.value ?
                 <div className={"icon__container"} onClick={removeFavoriteCurrency}>
-                    <img id={"favorite-fill-icon"} className={"icon"} src={favoriteFillIcon.toString()}/>
+                    <img alt={""} id={"favorite-fill-icon"} className={"icon"} src={favoriteFillIcon.toString()}/>
                 </div> :
                 <div className={"icon__container"} onClick={setFavoriteCurrency}>
-                    <img id={"favorite-icon"} className={"icon"} src={favoriteIcon.toString()}/>
+                    <img alt={""} id={"favorite-icon"} className={"icon"} src={favoriteIcon.toString()}/>
                 </div>
             }
             {!noName && <span className={"currency-name no-select"}>{selectedOption ? selectedOption.name : ""}</span>}
@@ -147,11 +157,11 @@ export const CurrencySelect: React.FC<Props> = (
 };
 
 const generateOptions = (symbols: {}) => {
-    const flags: [] = require("../../../assets/json/currency/currencies-with-flags.json");
+    const flags: FlagsJSONType[] = flagsJSON;
     const options: CurrencySelectOptionType[] | any = [];
 
     for (let [key, value] of Object.entries(symbols)) {
-        const currencyWithFlag: CurrencyWithFlagTypes | any = flags.find((obj: CurrencyWithFlagTypes) => {
+        const currencyWithFlag: CurrencyWithFlagTypes | any = flags.find((obj: FlagsJSONType) => {
             return obj.code === key;
         });
         if (!currencyWithFlag) {

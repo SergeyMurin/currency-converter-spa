@@ -12,7 +12,7 @@ import {useTypedSelector} from "./hooks/use-typed-selector";
 
 const App = () => {
     const {getAvailableCurrencies} = useAction();
-    const {loading_status}=useTypedSelector(state => state.availableCurrencies)
+    const {loading_status} = useTypedSelector(state => state.availableCurrencies)
 
     useEffect(() => {
         const requestInterval: number = 0;
@@ -35,3 +35,8 @@ const App = () => {
     );
 }
 export default App;
+
+export enum LocalStoragePath {
+    CONVERTER_DEFAULT_CURRENCY = "converter-default-currency",
+    FAVORITE_RATES = "favorite-rates",
+}
