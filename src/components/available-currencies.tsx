@@ -1,15 +1,13 @@
-import React, {useEffect} from 'react';
-import {useTypedSelector} from "../hooks/use-typed-selector";
-import {useAction} from "../hooks/use-action";
-
+import React, { useEffect } from "react";
+import { useTypedSelector } from "../hooks/use-typed-selector";
+import { useAction } from "../hooks/use-action";
 
 const AvailableCurrencies: React.FC = () => {
-    const {loading_status} = useTypedSelector(state => state.availableCurrencies);
+  const { loading_status } = useTypedSelector(
+    (state) => state.availableCurrencies
+  );
 
-    return (
-        <div className={"supported-symbols"}>
-        </div>
-    );
+  return <div className={"supported-symbols"}></div>;
 };
 
 export default AvailableCurrencies;

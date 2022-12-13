@@ -1,35 +1,38 @@
 .nav-bar {
-    height: 4rem;
-    width: 100%;
-    display: flex;
-    color: white;
-    -webkit-box-shadow: var(--shadow-default);
-    -moz-box-shadow: var(--shadow-default);
-    box-shadow: var(--shadow-default);
+  height: 4rem;
+  width: 100%;
+  display: flex;
+  color: white;
+  -webkit-box-shadow: var(--shadow-default);
+  -moz-box-shadow: var(--shadow-default);
+  box-shadow: var(--shadow-default);
 }
 
-.nav-link, .nav-link:after, .nav-link:active, .nav-link:visited {
-    text-decoration: unset;
-    color: unset;
+.nav-link,
+.nav-link:after,
+.nav-link:active,
+.nav-link:visited {
+  text-decoration: unset;
+  color: unset;
 }
 
 .nav-link.active {
-    background: var(--color-container);
+  background: var(--color-container);
 }
-.nav-link.active:hover{
-    opacity: 1;
+.nav-link.active:hover {
+  opacity: 1;
 }
 
 .nav-link {
-    display: flex;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-    background: var(--color-container-active)
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  background: var(--color-container-active);
 }
 
-.nav-link:hover{
-    transition: opacity 0.2s ease-in-out;
-    opacity: 0.7;
+.nav-link:hover {
+  transition: opacity 0.2s ease-in-out;
+  opacity: 0.7;
 }
