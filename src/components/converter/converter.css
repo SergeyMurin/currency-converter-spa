@@ -1,26 +1,26 @@
 .converter {
-    margin-left: 2.5rem;
-    margin-right: 2.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
 }
 
-.converter-container{
-    height: 14rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.converter-container {
+  height: 14rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media only screen and (max-width: 600px) {
-    .converter{
-        margin-left: 0.5rem;
-        margin-right: 0.5rem;
-    }
-    .converter-container{
-        display: unset;
-        height: 100vh;
-    }
+  .converter {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  .converter-container {
+    display: unset;
+    height: 100vh;
+  }
 }
