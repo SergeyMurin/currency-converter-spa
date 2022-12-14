@@ -55,7 +55,7 @@ export const RatesList: React.FC<Props> = ({ currency }) => {
       ? JSON.parse(favoriteRatesStr)
       : null;
     const newObj = {};
-    for (let [key, value] of Object.entries(tempRates)) {
+    for (const [key, value] of Object.entries(tempRates)) {
       const found = findFavoriteRate(
         favoriteRates,
         currency,
@@ -163,9 +163,9 @@ export const RatesList: React.FC<Props> = ({ currency }) => {
     return foundValue ? foundValue : null;
   };
 
-  const makeList = (obj: {}, isFavoriteList: boolean) => {
+  const makeList = (obj: object, isFavoriteList: boolean) => {
     const list: JSX.Element[] = [];
-    for (let [key, value] of Object.entries(obj)) {
+    for (const [key, value] of Object.entries(obj)) {
       if (needToContinue(key, value, isFavoriteList)) {
         continue;
       }

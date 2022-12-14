@@ -6,7 +6,7 @@ export interface IHistoricalRatesState {
   base_currency_code: string | null;
   base_currency_name: string | null;
   updated_date: string | null;
-  rates: {} | null;
+  rates: object | null;
 }
 
 export enum HistoricalRatesActionTypes {
@@ -26,7 +26,7 @@ interface IGetHistoricalRatesSuccessAction {
   base_currency_code: string;
   base_currency_name: string;
   updated_date: string;
-  rates: {};
+  rates: object;
 }
 
 interface IGetHistoricalRatesErrorAction {
@@ -36,7 +36,7 @@ interface IGetHistoricalRatesErrorAction {
 
 interface ISetRates {
   type: HistoricalRatesActionTypes.SET_RATES;
-  rates: {};
+  rates: object;
 }
 
 export type HistoricalRatesActionType =

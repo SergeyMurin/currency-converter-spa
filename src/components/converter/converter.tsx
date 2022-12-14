@@ -27,7 +27,7 @@ const Converter: React.FC<Props> = ({ loading }) => {
 
   useEffect(() => {
     if (!convertIsDisable) {
-      let requestInterval = 0;
+      const requestInterval = 0;
       const interval = setInterval(() => {
         makeConversion({ amount: amount, from: from, to: to });
         clearInterval(interval);
@@ -43,7 +43,7 @@ const Converter: React.FC<Props> = ({ loading }) => {
 
   const amountHandler = (value: string) => {
     setAmount(value);
-    !!value ? setConvertIsDisable(false) : setConvertIsDisable(true);
+    value ? setConvertIsDisable(false) : setConvertIsDisable(true);
   };
 
   const fromHandler = (value: string | null | undefined) => {
@@ -64,7 +64,7 @@ const Converter: React.FC<Props> = ({ loading }) => {
       rate: "",
       rate_for_amount: "",
     };
-    for (let [key, value] of Object.entries(rates)) {
+    for (const [, value] of Object.entries(rates)) {
       rate.currency_name = (value as IRate).currency_name;
       rate.rate = (value as IRate).rate;
       rate.rate_for_amount = (value as IRate).rate_for_amount;

@@ -63,7 +63,7 @@ export const CurrencyInput: React.FC<Props> = ({
 
   const inputValuePrettier = (event: any) => {
     const targetValue = (event.target as HTMLInputElement).value;
-    let value = "";
+    let value;
     const separator = ".";
     if (targetValue.includes(separator)) {
       const temp = targetValue.split(separator);
@@ -102,7 +102,12 @@ export const CurrencyInput: React.FC<Props> = ({
       />
       {inputValue ? (
         <div className={"icon__container"} onClick={copyToClipBoard}>
-          <img id={"copy-icon"} className={"icon"} src={copyIcon.toString()} />
+          <img
+            id={"copy-icon"}
+            className={"icon"}
+            src={copyIcon.toString()}
+            alt={""}
+          />
         </div>
       ) : (
         <div className={"icon__container"}>
@@ -110,6 +115,7 @@ export const CurrencyInput: React.FC<Props> = ({
             id={"copy-icon"}
             className={"icon disabled"}
             src={copyIcon.toString()}
+            alt={""}
           />
         </div>
       )}

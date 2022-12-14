@@ -40,7 +40,7 @@ export const getHistoricalRates = (params: RatesParams) => {
         .request(options)
         .then((response) => response.data);
 
-      for (let [key, value] of Object.entries(data.rates)) {
+      for (const [, value] of Object.entries(data.rates)) {
         (value as Rate).isFavorite = false;
       }
 
@@ -57,16 +57,6 @@ export const getHistoricalRates = (params: RatesParams) => {
         type: HistoricalRatesActionTypes.GET_HISTORICAL_RATES_ERROR,
         payload: "Error when fetching historical rates",
       });
-    }
-  };
-};
-
-export const setRates = (rates: {}) => {
-  return (dispatch: Dispatch<HistoricalRatesActionType>) => {
-    try {
-      dispatch({ type: HistoricalRatesActionTypes.SET_RATES, rates: rates });
-    } catch (error) {
-      console.error(error);
     }
   };
 };

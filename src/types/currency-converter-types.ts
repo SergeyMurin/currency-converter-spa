@@ -6,7 +6,7 @@ export interface IConverterState {
   base_currency_code: string | null;
   base_currency_name: string | null;
   updated_date: string | null;
-  rates: {} | null;
+  rates: object | null;
 }
 
 export interface IRate {
@@ -31,7 +31,7 @@ interface IConvertSuccessAction {
   base_currency_code: string;
   base_currency_name: string;
   updated_date: string;
-  rates: {};
+  rates: object;
 }
 
 interface IConvertErrorAction {

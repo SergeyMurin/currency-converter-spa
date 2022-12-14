@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import "./app.css";
-import AvailableCurrencies from "./components/available-currencies";
 import { useAction } from "./hooks/use-action";
 import { Route, Routes } from "react-router-dom";
 import { ConverterPage } from "./pages/converter-page";
@@ -16,8 +15,8 @@ const App = () => {
   );
 
   useEffect(() => {
-    const requestInterval: number = 0;
-    let interval = setInterval(() => {
+    const requestInterval = 0;
+    const interval = setInterval(() => {
       getAvailableCurrencies();
       clearInterval(interval);
     }, requestInterval);
@@ -31,7 +30,6 @@ const App = () => {
           <Route path={"*"} element={<NotFoundPage />} />
         </Route>
       </Routes>
-      <AvailableCurrencies />
     </>
   );
 };

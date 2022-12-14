@@ -53,7 +53,6 @@ export const CurrencySelect: React.FC<Props> = ({
     if (onFavoriteChange) {
       onFavoriteChange(favorite ? favorite : "");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -192,11 +191,11 @@ export const CurrencySelect: React.FC<Props> = ({
   );
 };
 
-const generateOptions = (symbols: {}) => {
+const generateOptions = (symbols:object) => {
   const flags: FlagsJSONType[] = flagsJSON;
   const options: CurrencySelectOptionType[] | any = [];
 
-  for (let [key, value] of Object.entries(symbols)) {
+  for (const [key,] of Object.entries(symbols)) {
     const currencyWithFlag: CurrencyWithFlagTypes | any = flags.find(
       (obj: FlagsJSONType) => {
         return obj.code === key;

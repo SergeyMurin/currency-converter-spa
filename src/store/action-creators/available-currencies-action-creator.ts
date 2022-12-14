@@ -5,7 +5,7 @@ import {
 } from "../../types/available-currencies-types";
 import axios from "axios";
 
-export const orderObject = (obj: any): {} => {
+export const orderObject = (obj: any): object => {
   return Object.keys(obj)
     .sort()
     .reduce((accumulator: any, key: any) => {
@@ -32,7 +32,7 @@ export const getAvailableCurrencies = () => {
       const data = await axios
         .request(options)
         .then((response) => response.data);
-      const ordered: {} = orderObject(data.currencies);
+      const ordered: object = orderObject(data.currencies);
       dispatch({
         type: AvailableCurrenciesActionTypes.GET_AVAILABLE_CURRENCIES_SUCCESS,
         currencies: ordered,

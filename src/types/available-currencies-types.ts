@@ -2,7 +2,7 @@ export interface IAvailableCurrenciesState {
   loading_status: boolean | null;
   error: string | null;
   success: boolean | null;
-  currencies: {} | null;
+  currencies: object | null;
 }
 
 export enum AvailableCurrenciesActionTypes {
@@ -17,7 +17,7 @@ interface IGetAvailableCurrenciesAction {
 
 interface IGetAvailableCurrenciesSuccessAction {
   type: AvailableCurrenciesActionTypes.GET_AVAILABLE_CURRENCIES_SUCCESS;
-  currencies: {};
+  currencies: object;
 }
 
 interface IGetAvailableCurrenciesErrorAction {
